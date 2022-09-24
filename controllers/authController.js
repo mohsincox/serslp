@@ -31,23 +31,40 @@ const registerUser = (req, res) => {
           age: req.body.age,
         })
           .then((user) => {
-            var token = jwt.sign(
-              JSON.parse(JSON.stringify(user)),
-              authConfig.secret,
-              {
-                expiresIn: 86400 * 30,
-              }
-            );
-            jwt.verify(token, authConfig.secret, function (err, data) {
-              console.log(err, data);
-            });
-            res.json({
-              success: true,
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              accessToken: "JWT " + token,
-              userrole: user,
+            User.findByPk(user.id, {
+              include: [
+                {
+                  model: Role,
+                  include: [
+                    {
+                      model: RolePermission,
+                    },
+                  ],
+                },
+              ],
+            }).then((userrole) => {
+              console.log("first rrrrrrrrrrrrrrrpppppppp1");
+              console.log("first rrrrrrrrrrrrrrrpppppppp2", userrole);
+              console.log("first rrrrrrrrrrrrrrrpppppppp3");
+
+              var token = jwt.sign(
+                JSON.parse(JSON.stringify(user)),
+                authConfig.secret,
+                {
+                  expiresIn: 86400 * 30,
+                }
+              );
+              jwt.verify(token, authConfig.secret, function (err, data) {
+                console.log(err, data);
+              });
+              res.json({
+                success: true,
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                accessToken: "JWT " + token,
+                userrole: userrole,
+              });
             });
           })
           // .then((user) => res.status(201).send(user))
