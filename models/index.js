@@ -31,6 +31,8 @@ db.team = require("./teamModel.js")(sequelize, Sequelize);
 db.teamDetail = require("./teamDetailModel.js")(sequelize, Sequelize);
 db.slider = require("./sliderModel.js")(sequelize, Sequelize);
 db.match = require("./matchModel.js")(sequelize, Sequelize);
+db.franchise = require("./franchiseModel.js")(sequelize, Sequelize);
+db.tournamentTeam = require("./tournamentTeamModel.js")(sequelize, Sequelize);
 
 // db.role = require("../models/role.model.js")(sequelize, Sequelize);
 
@@ -110,6 +112,13 @@ db.country.hasMany(db.match, {
 db.match.belongsTo(db.country, {
   foreignKey: "country_two_id",
   as: "country_two",
+});
+
+db.country.hasMany(db.franchise, {
+  foreignKey: "country_id",
+});
+db.franchise.belongsTo(db.country, {
+  foreignKey: "country_id",
 });
 
 module.exports = db;
