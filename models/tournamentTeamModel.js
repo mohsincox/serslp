@@ -1,5 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
   const TournamentTeam = sequelize.define("tournament_teams", {
+    name: {
+      type: DataTypes.STRING,
+    },
     tournament_id: {
       type: DataTypes.INTEGER,
     },
