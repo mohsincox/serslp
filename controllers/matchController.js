@@ -1,7 +1,9 @@
 const db = require("../models");
 const Match = db.match;
 const Tournament = db.tournament;
+const TournamentTeam = db.tournamentTeam;
 const Country = db.country;
+const Franchise = db.franchise;
 // const Helper = require("../utils/helper");
 // const helper = new Helper();
 
@@ -18,10 +20,11 @@ const matchAdd = (req, res) => {
     Match.create({
       stage_name: req.body.stage_name,
       tournament_id: req.body.tournament_id,
-      country_one_id: req.body.country_one_id,
-      country_two_id: req.body.country_two_id,
+      tournament_team_one_id: req.body.tournament_team_one_id,
+      tournament_team_two_id: req.body.tournament_team_two_id,
       start_date: req.body.start_date,
       start_time: req.body.start_time,
+      venue: req.body.venue,
     })
       .then((match) => res.status(201).send(match))
       .catch((err) => {
@@ -48,12 +51,28 @@ const matchGetAll = (req, res) => {
         model: Tournament,
       },
       {
-        model: Country,
-        as: "country_one",
+        model: TournamentTeam,
+        as: "tournament_team_one",
+        include: [
+          {
+            model: Country,
+          },
+          {
+            model: Franchise,
+          },
+        ],
       },
       {
-        model: Country,
-        as: "country_two",
+        model: TournamentTeam,
+        as: "tournament_team_two",
+        include: [
+          {
+            model: Country,
+          },
+          {
+            model: Franchise,
+          },
+        ],
       },
     ],
   })
@@ -98,10 +117,13 @@ const matchUpdate = (req, res) => {
           {
             stage_name: req.body.stage_name || match.stage_name,
             tournament_id: req.body.tournament_id || match.tournament_id,
-            country_one_id: req.body.country_one_id || match.country_one_id,
-            country_two_id: req.body.country_two_id || match.country_two_id,
+            tournament_team_one_id:
+              req.body.tournament_team_one_id || match.tournament_team_one_id,
+            tournament_team_two_id:
+              req.body.tournament_team_two_id || match.tournament_team_two_id,
             start_date: req.body.start_date || match.start_date,
             start_time: req.body.start_time || match.start_time,
+            venue: req.body.venue || match.venue,
           },
           {
             where: {

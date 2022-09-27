@@ -6,16 +6,19 @@ module.exports = (sequelize, DataTypes) => {
     tournament_id: {
       type: DataTypes.INTEGER,
     },
-    country_one_id: {
+    tournament_team_one_id: {
       type: DataTypes.INTEGER,
     },
-    country_two_id: {
+    tournament_team_two_id: {
       type: DataTypes.INTEGER,
     },
     start_date: {
       type: DataTypes.STRING,
     },
     start_time: {
+      type: DataTypes.STRING,
+    },
+    venue: {
       type: DataTypes.STRING,
     },
     created_by: {

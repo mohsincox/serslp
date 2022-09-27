@@ -15,18 +15,33 @@ const tournamentTeamAdd = (req, res) => {
       msg: "Please pass name, tournament.",
     });
   } else {
-    TournamentTeam.create({
-      name: req.body.name,
-      tournament_id: req.body.tournament_id,
-      category: req.body.category,
-      country_id: req.body.country_id,
-      franchise_id: req.body.franchise_id,
-    })
-      .then((tournamentTeam) => res.status(201).send(tournamentTeam))
-      .catch((err) => {
-        console.log(err);
-        res.status(400).send(err);
-      });
+    if (req.body.category == "International") {
+      TournamentTeam.create({
+        name: req.body.name,
+        tournament_id: req.body.tournament_id,
+        category: req.body.category,
+        country_id: req.body.country_id,
+        franchise_id: "",
+      })
+        .then((tournamentTeam) => res.status(201).send(tournamentTeam))
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+        });
+    } else {
+      TournamentTeam.create({
+        name: req.body.name,
+        tournament_id: req.body.tournament_id,
+        category: req.body.category,
+        country_id: "",
+        franchise_id: req.body.franchise_id,
+      })
+        .then((tournamentTeam) => res.status(201).send(tournamentTeam))
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send(err);
+        });
+    }
   }
   // })
   // .catch((error) => {

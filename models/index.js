@@ -98,22 +98,6 @@ db.match.belongsTo(db.tournament, {
   foreignKey: "tournament_id",
 });
 
-db.country.hasMany(db.match, {
-  foreignKey: "country_one_id",
-});
-db.match.belongsTo(db.country, {
-  foreignKey: "country_one_id",
-  as: "country_one",
-});
-
-db.country.hasMany(db.match, {
-  foreignKey: "country_two_id",
-});
-db.match.belongsTo(db.country, {
-  foreignKey: "country_two_id",
-  as: "country_two",
-});
-
 db.country.hasMany(db.franchise, {
   foreignKey: "country_id",
 });
@@ -140,6 +124,22 @@ db.franchise.hasMany(db.tournamentTeam, {
 });
 db.tournamentTeam.belongsTo(db.franchise, {
   foreignKey: "franchise_id",
+});
+
+db.tournamentTeam.hasMany(db.match, {
+  foreignKey: "tournament_team_one_id",
+});
+db.match.belongsTo(db.tournamentTeam, {
+  foreignKey: "tournament_team_one_id",
+  as: "tournament_team_one",
+});
+
+db.tournamentTeam.hasMany(db.match, {
+  foreignKey: "tournament_team_two_id",
+});
+db.match.belongsTo(db.tournamentTeam, {
+  foreignKey: "tournament_team_two_id",
+  as: "tournament_team_two",
 });
 
 module.exports = db;
