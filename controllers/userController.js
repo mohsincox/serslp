@@ -19,7 +19,7 @@ const userAdd = (req, res) => {
         !req.body.name
       ) {
         res.status(400).send({
-          msg: "Please pass Role ID, email, password, phone or name.",
+          msg: "Please pass Role ID, email, password, name.",
         });
       } else {
         User.create({
@@ -58,8 +58,8 @@ const userGetAll = (req, res) => {
           },
         ],
       })
-        // .then((users) => res.status(200).send(users))
-        .then((users) => res.status(200).send(users[0].role.role_permissions))
+        .then((users) => res.status(200).send(users))
+        // .then((users) => res.status(200).send(users[0].role.role_permissions))
         .catch((error) => {
           res.status(400).send(error);
         });
