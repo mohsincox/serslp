@@ -4,6 +4,7 @@ const db = require("../models");
 const Tournament = db.tournament;
 const Match = db.match;
 const Country = db.country;
+const Franchise = db.franchise;
 
 const TournamentTeam = db.tournamentTeam;
 
@@ -14,12 +15,28 @@ router.get("/", (req, res) => {
         model: Match,
         include: [
           {
-            model: Country,
-            as: "country_one",
+            model: TournamentTeam,
+            as: "tournament_team_one",
+            include: [
+              {
+                model: Country,
+              },
+              {
+                model: Franchise,
+              },
+            ],
           },
           {
-            model: Country,
-            as: "country_two",
+            model: TournamentTeam,
+            as: "tournament_team_two",
+            include: [
+              {
+                model: Country,
+              },
+              {
+                model: Franchise,
+              },
+            ],
           },
         ],
       },
