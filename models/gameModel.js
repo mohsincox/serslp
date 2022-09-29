@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
     },
     detail: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
     },
     created_by: {
       type: DataTypes.INTEGER,
