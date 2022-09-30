@@ -41,23 +41,23 @@ router.get(
   permissionGet
 );
 
-router.put(
-  "/:id",
-  [
-    passport.authenticate("jwt", {
-      session: false,
-    }),
-    checkDuplicatePermNameUpdate,
-  ],
-  permissionUpdate
-);
+// router.put(
+//   "/:id",
+//   [
+//     passport.authenticate("jwt", {
+//       session: false,
+//     }),
+//     checkDuplicatePermNameUpdate,
+//   ],
+//   permissionUpdate
+// );
 
-router.delete(
-  "/:id",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
-  permissionDelete
-);
+// router.delete(
+//   "/:id",
+//   passport.authenticate("jwt", {
+//     session: false,
+//   }),
+//   permissionDelete
+// );
 
 module.exports = router;
