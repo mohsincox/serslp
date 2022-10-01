@@ -10,6 +10,7 @@ const {
   userDelete,
 } = require("../controllers/userController");
 const { checkDuplicateEmail } = require("../middlewares/authMiddleware");
+const { userDuplicateCheckUpdate } = require("../middlewares/userMiddleware");
 
 // Create a new User
 router.post(
@@ -44,9 +45,12 @@ router.get(
 // Update a User
 router.put(
   "/:id",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+  [
+    passport.authenticate("jwt", {
+      session: false,
+    }),
+    userDuplicateCheckUpdate,
+  ],
   userUpdate
 );
 
