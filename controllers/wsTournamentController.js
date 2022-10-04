@@ -1,5 +1,6 @@
 const db = require("../models");
 const Tournament = db.tournament;
+const Game = db.game;
 // const Helper = require("../utils/helper");
 // const helper = new Helper();
 
@@ -41,7 +42,29 @@ const tournamentFootballGetAll = (req, res) => {
   // });
 };
 
+const gameTournamentsGetAll = (req, res) => {
+  //   helper
+  //     .checkPermission(req.user.role_id, "permission_get_all")
+  //     .then((rolePerm) => {
+  Game.findAll({
+    include: [
+      {
+        model: Tournament,
+      },
+    ],
+  })
+    .then((games) => res.status(200).send(games))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+  // })
+  // .catch((err) => {
+  //   res.status(403).send(err);
+  // });
+};
+
 module.exports = {
   tournamentCricketGetAll,
   tournamentFootballGetAll,
+  gameTournamentsGetAll,
 };
