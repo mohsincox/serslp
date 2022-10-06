@@ -11,13 +11,13 @@ const matchAdd = (req, res) => {
   helper
     .checkPermission(req.user.role_id, "match_add")
     .then((rolePerm) => {
-      if (!req.body.stage_name) {
+      if (!req.body.tournament_id) {
         res.status(400).send({
-          msg: "Please pass match stage_name.",
+          msg: "Please pass match tournament_id.",
         });
       } else {
         Match.create({
-          stage_name: req.body.stage_name,
+          // stage_name: req.body.stage_name,
           tournament_id: req.body.tournament_id,
           tournament_team_one_id: req.body.tournament_team_one_id,
           tournament_team_two_id: req.body.tournament_team_two_id,
@@ -101,16 +101,16 @@ const matchUpdate = (req, res) => {
   helper
     .checkPermission(req.user.role_id, "match_update")
     .then((rolePerm) => {
-      if (!req.params.id || !req.body.stage_name) {
+      if (!req.params.id || !req.body.tournament_id) {
         res.status(400).send({
-          msg: "Please pass match ID",
+          msg: "Please pass match ID, tournament_id",
         });
       } else {
         Match.findByPk(req.params.id)
           .then((match) => {
             Match.update(
               {
-                stage_name: req.body.stage_name || match.stage_name,
+                // stage_name: req.body.stage_name || match.stage_name,
                 tournament_id: req.body.tournament_id || match.tournament_id,
                 tournament_team_one_id:
                   req.body.tournament_team_one_id ||

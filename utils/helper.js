@@ -23,10 +23,6 @@ class Helper {
             },
           })
             .then((rolePermission) => {
-              console.log(
-                "rolePermission ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
-                rolePermission
-              );
               if (rolePermission) {
                 resolve(rolePermission);
               } else {

@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     game_id: {
       type: DataTypes.INTEGER,
     },
+    category: {
+      type: DataTypes.STRING,
+    },
     month: {
       type: DataTypes.STRING,
     },

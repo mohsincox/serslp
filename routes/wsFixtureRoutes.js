@@ -53,6 +53,14 @@ router.get("/tt/:id", (req, res) => {
     where: {
       tournament_id: req.params.id,
     },
+    include: [
+      {
+        model: Country,
+      },
+      {
+        model: Franchise,
+      },
+    ],
   })
     .then((tournamentTeams) => res.status(200).send(tournamentTeams))
     .catch((err) => {

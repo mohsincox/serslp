@@ -21,6 +21,7 @@ const tournamentAdd = (req, res) => {
             game_id: req.body.game_id,
             month: req.body.month,
             year: req.body.year,
+            category: req.body.category,
             logo: "",
           })
             .then((tournament) => res.status(201).send(tournament))
@@ -34,6 +35,7 @@ const tournamentAdd = (req, res) => {
             game_id: req.body.game_id,
             month: req.body.month,
             year: req.body.year,
+            category: req.body.category,
             logo: req.file.path,
           })
             .then((tournament) => res.status(201).send(tournament))
@@ -103,6 +105,7 @@ const tournamentUpdate = (req, res) => {
                   game_id: req.body.game_id || tournament.game_id,
                   month: req.body.month || tournament.month,
                   year: req.body.year || tournament.year,
+                  category: req.body.category || tournament.category,
                 },
                 {
                   where: {
@@ -129,6 +132,7 @@ const tournamentUpdate = (req, res) => {
                   game_id: req.body.game_id || tournament.game_id,
                   month: req.body.month || tournament.month,
                   year: req.body.year || tournament.year,
+                  category: req.body.category || tournament.category,
                   logo: req.file.path,
                 },
                 {
