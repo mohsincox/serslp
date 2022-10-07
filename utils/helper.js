@@ -15,7 +15,7 @@ class Helper {
         },
       })
         .then((perm) => {
-          console.log("perm", perm);
+          // console.log("perm", perm);
           RolePermission.findOne({
             where: {
               role_id: roleId,

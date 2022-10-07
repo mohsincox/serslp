@@ -78,11 +78,25 @@ db.tournament.belongsTo(db.game, {
   foreignKey: "game_id",
 });
 
+db.game.hasMany(db.player, {
+  foreignKey: "game_id",
+});
+db.player.belongsTo(db.game, {
+  foreignKey: "game_id",
+});
+
 db.country.hasMany(db.player, {
   foreignKey: "country_id",
 });
 db.player.belongsTo(db.country, {
   foreignKey: "country_id",
+});
+
+db.franchise.hasMany(db.player, {
+  foreignKey: "franchise_id",
+});
+db.player.belongsTo(db.franchise, {
+  foreignKey: "franchise_id",
 });
 
 db.player.hasMany(db.teamDetail, {

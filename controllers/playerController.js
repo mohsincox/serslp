@@ -2,7 +2,9 @@ const multer = require("multer");
 const path = require("path");
 const db = require("../models");
 const Player = db.player;
+const Game = db.game;
 const Country = db.country;
+const Franchise = db.franchise;
 const Helper = require("../utils/helper");
 const helper = new Helper();
 
@@ -18,12 +20,13 @@ const playerAdd = (req, res) => {
         if (req.file == undefined) {
           Player.create({
             name: req.body.name,
+            game_id: req.body.game_id,
             country_id: req.body.country_id,
-            specification: `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper} }`,
-            batting_position: req.body.batting_position,
-            jersey_no: req.body.jersey_no,
+            franchise_id: req.body.franchise_id,
+            specification: `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward} }`,
             ranking: req.body.ranking,
             point: req.body.point,
+            status: req.body.status,
             image: "",
           })
             .then((player) => res.status(201).send(player))
@@ -34,12 +37,13 @@ const playerAdd = (req, res) => {
         } else {
           Player.create({
             name: req.body.name,
+            game_id: req.body.game_id,
             country_id: req.body.country_id,
-            specification: `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper} }`,
-            batting_position: req.body.batting_position,
-            jersey_no: req.body.jersey_no,
+            franchise_id: req.body.franchise_id,
+            specification: `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward} }`,
             ranking: req.body.ranking,
             point: req.body.point,
+            status: req.body.status,
             image: req.file.path,
           })
             .then((player) => res.status(201).send(player))
@@ -62,7 +66,13 @@ const playerGetAll = (req, res) => {
       Player.findAll({
         include: [
           {
+            model: Game,
+          },
+          {
             model: Country,
+          },
+          {
+            model: Franchise,
           },
         ],
       })
@@ -130,15 +140,15 @@ const playerUpdate = (req, res) => {
               Player.update(
                 {
                   name: req.body.name || player.name,
+                  game_id: req.body.game_id || player.game_id,
                   country_id: req.body.country_id || player.country_id,
+                  franchise_id: req.body.franchise_id || player.franchise_id,
                   specification:
-                    `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper} }` ||
+                    `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward} }` ||
                     player.specification,
-                  batting_position:
-                    req.body.batting_position || player.batting_position,
-                  jersey_no: req.body.jersey_no || player.jersey_no,
                   ranking: req.body.ranking || player.ranking,
                   point: req.body.point || player.point,
+                  status: req.body.status || player.status,
                 },
                 {
                   where: {
@@ -162,15 +172,15 @@ const playerUpdate = (req, res) => {
               Player.update(
                 {
                   name: req.body.name || player.name,
+                  game_id: req.body.game_id || player.game_id,
                   country_id: req.body.country_id || player.country_id,
+                  franchise_id: req.body.franchise_id || player.franchise_id,
                   specification:
-                    `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper} }` ||
+                    `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward} }` ||
                     player.specification,
-                  batting_position:
-                    req.body.batting_position || player.batting_position,
-                  jersey_no: req.body.jersey_no || player.jersey_no,
                   ranking: req.body.ranking || player.ranking,
                   point: req.body.point || player.point,
+                  status: req.body.status || player.status,
                   image: req.file.path,
                 },
                 {
