@@ -30,6 +30,10 @@ app.use("/api/sliders", require("./routes/sliderRoutes"));
 app.use("/api/matches", require("./routes/matchRoutes"));
 app.use("/api/franchises", require("./routes/franchiseRoutes"));
 app.use("/api/tournament-teams", require("./routes/tournamentTeamRoutes"));
+app.use(
+  "/api/tournament-team-players",
+  require("./routes/tournamentTeamPlayerRoutes")
+);
 app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/ws-tournaments", require("./routes/wsTournamentRoutes"));
 app.use("/api/ws-teams", require("./routes/wsTeamRoutes"));

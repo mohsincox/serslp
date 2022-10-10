@@ -34,6 +34,14 @@ db.match = require("./matchModel.js")(sequelize, Sequelize);
 db.franchise = require("./franchiseModel.js")(sequelize, Sequelize);
 db.tournamentTeam = require("./tournamentTeamModel.js")(sequelize, Sequelize);
 db.news = require("./newsModel.js")(sequelize, Sequelize);
+db.tournamentTeamPlayer = require("./tournamentTeamPlayerModel.js")(
+  sequelize,
+  Sequelize
+);
+db.tournamentTeamPlayerDetail = require("./tournamentTeamPlayerDetailModel.js")(
+  sequelize,
+  Sequelize
+);
 
 // db.role = require("../models/role.model.js")(sequelize, Sequelize);
 
@@ -162,6 +170,34 @@ db.tournament.hasMany(db.news, {
 });
 db.news.belongsTo(db.tournament, {
   foreignKey: "tournament_id",
+});
+
+db.tournament.hasMany(db.tournamentTeamPlayer, {
+  foreignKey: "tournament_id",
+});
+db.tournamentTeamPlayer.belongsTo(db.tournament, {
+  foreignKey: "tournament_id",
+});
+
+db.tournamentTeam.hasMany(db.tournamentTeamPlayer, {
+  foreignKey: "tournament_team_id",
+});
+db.tournamentTeamPlayer.belongsTo(db.tournamentTeam, {
+  foreignKey: "tournament_team_id",
+});
+
+db.tournamentTeamPlayer.hasMany(db.tournamentTeamPlayerDetail, {
+  foreignKey: "tournament_team_player_id",
+});
+db.tournamentTeamPlayerDetail.belongsTo(db.tournamentTeamPlayer, {
+  foreignKey: "tournament_team_player_id",
+});
+
+db.player.hasMany(db.tournamentTeamPlayerDetail, {
+  foreignKey: "player_id",
+});
+db.tournamentTeamPlayerDetail.belongsTo(db.player, {
+  foreignKey: "player_id",
 });
 
 module.exports = db;
