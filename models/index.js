@@ -34,15 +34,16 @@ db.match = require("./matchModel.js")(sequelize, Sequelize);
 db.franchise = require("./franchiseModel.js")(sequelize, Sequelize);
 db.tournamentTeam = require("./tournamentTeamModel.js")(sequelize, Sequelize);
 db.news = require("./newsModel.js")(sequelize, Sequelize);
-db.tournamentTeamPlayer = require("./tournamentTeamPlayerModel.js")(
-  sequelize,
-  Sequelize
-);
+db.tournamentTeamPlayer = require("./tournamentTeamPlayerModel.js")(sequelize, Sequelize);
 db.tournamentTeamPlayerDetail = require("./tournamentTeamPlayerDetailModel.js")(
   sequelize,
   Sequelize
 );
 db.pointTable = require("./pointTableModel.js")(sequelize, Sequelize);
+
+/*ku model*/
+
+db.widget = require("./widgetModel.js")(sequelize, Sequelize);
 
 // db.role = require("../models/role.model.js")(sequelize, Sequelize);
 

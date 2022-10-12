@@ -41,6 +41,7 @@ app.use("/api/ws-teams", require("./routes/wsTeamRoutes"));
 app.use("/api/ws-sliders", require("./routes/wsSliderRoutes"));
 app.use("/api/ws-fixtures", require("./routes/wsFixtureRoutes"));
 app.use("/api/ws-news", require("./routes/wsNewsRoutes"));
+app.use("/api/widget", require("./routes/widgetRoutes"));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
