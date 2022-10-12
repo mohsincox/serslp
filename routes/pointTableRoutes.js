@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const {
-  matchAdd,
-  matchGetAll,
-  matchGet,
-  matchUpdate,
-  matchDelete,
-} = require("../controllers/matchController");
+  pointTableAdd,
+  pointTableGetAll,
+  pointTableGet,
+  pointTableUpdate,
+  pointTableDelete,
+} = require("../controllers/pointTableController");
 
 require("../config/passport")(passport);
 
@@ -17,9 +17,8 @@ router.post(
     passport.authenticate("jwt", {
       session: false,
     }),
-    // matchDuplicateCheck,
   ],
-  matchAdd
+  pointTableAdd
 );
 
 router.get(
@@ -27,7 +26,7 @@ router.get(
   passport.authenticate("jwt", {
     session: false,
   }),
-  matchGetAll
+  pointTableGetAll
 );
 
 router.get(
@@ -35,15 +34,7 @@ router.get(
   passport.authenticate("jwt", {
     session: false,
   }),
-  matchGet
-);
-
-router.get(
-  "/pt/:id",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
-  matchGet
+  pointTableGet
 );
 
 router.put(
@@ -52,9 +43,8 @@ router.put(
     passport.authenticate("jwt", {
       session: false,
     }),
-    // matchDuplicateCheckUpdate,
   ],
-  matchUpdate
+  pointTableUpdate
 );
 
 router.delete(
@@ -62,7 +52,7 @@ router.delete(
   passport.authenticate("jwt", {
     session: false,
   }),
-  matchDelete
+  pointTableDelete
 );
 
 module.exports = router;

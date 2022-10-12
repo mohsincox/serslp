@@ -168,6 +168,31 @@ const tournamentTeamPlayerGetAll = (req, res) => {
   // });
 };
 
+const matchTournamentTeamPlayerGetAll = (req, res) => {
+  //   helper
+  //     .checkPermission(req.user.role_id, "game_get_all")
+  //     .then((rolePerm) => {
+  console.log("first hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+  TournamentTeamPlayerDetail.findAll({
+    where: { tournament_team_id: req.params.tournament_team_id },
+    include: [
+      {
+        model: Player,
+      },
+    ],
+  })
+    .then((tournamentTeamPlayers) =>
+      res.status(200).send(tournamentTeamPlayers)
+    )
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+  // })
+  // .catch((err) => {
+  //   res.status(403).send(err);
+  // });
+};
+
 const teamTournamentGetAll = (req, res) => {
   //   helper
   //     .checkPermission(req.user.role_id, "game_get_all")
@@ -367,4 +392,5 @@ module.exports = {
   tournamentTeamPlayerDelete,
   teamTournamentGetAll,
   gamePlayerGetAll,
+  matchTournamentTeamPlayerGetAll,
 };

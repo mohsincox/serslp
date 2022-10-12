@@ -9,6 +9,7 @@ const {
   tournamentTeamPlayerDelete,
   teamTournamentGetAll,
   gamePlayerGetAll,
+  matchTournamentTeamPlayerGetAll,
 } = require("../controllers/tournamentTeamPlayerController");
 
 require("../config/passport")(passport);
@@ -22,6 +23,14 @@ router.post(
     // tournamentTeamPlayerDuplicateCheck,
   ],
   tournamentTeamPlayerAdd
+);
+
+router.get(
+  "/match/:tournament_team_id",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  matchTournamentTeamPlayerGetAll
 );
 
 router.get(

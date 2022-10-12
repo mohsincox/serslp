@@ -34,6 +34,7 @@ app.use(
   "/api/tournament-team-players",
   require("./routes/tournamentTeamPlayerRoutes")
 );
+app.use("/api/point-tables", require("./routes/pointTableRoutes"));
 app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/ws-tournaments", require("./routes/wsTournamentRoutes"));
 app.use("/api/ws-teams", require("./routes/wsTeamRoutes"));

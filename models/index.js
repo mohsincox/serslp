@@ -42,6 +42,7 @@ db.tournamentTeamPlayerDetail = require("./tournamentTeamPlayerDetailModel.js")(
   sequelize,
   Sequelize
 );
+db.pointTable = require("./pointTableModel.js")(sequelize, Sequelize);
 
 // db.role = require("../models/role.model.js")(sequelize, Sequelize);
 

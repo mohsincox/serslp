@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     venue: {
       type: DataTypes.STRING,
     },
+    status: {
+      type: DataTypes.STRING,
+    },
     created_by: {
       type: DataTypes.INTEGER,
     },
