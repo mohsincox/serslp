@@ -44,6 +44,14 @@ db.pointTable = require("./pointTableModel.js")(sequelize, Sequelize);
 /*ku model*/
 
 db.widget = require("./widgetModel.js")(sequelize, Sequelize);
+db.ads = require("./adsModel.js")(sequelize, Sequelize);
+
+db.widget.hasMany(db.ads, {
+  foreignKey: "widget_id"
+});
+db.ads.belongsTo(db.widget, {
+  foreignKey: 'widget_id'
+});
 
 // db.role = require("../models/role.model.js")(sequelize, Sequelize);
 
@@ -201,5 +209,8 @@ db.player.hasMany(db.tournamentTeamPlayerDetail, {
 db.tournamentTeamPlayerDetail.belongsTo(db.player, {
   foreignKey: "player_id",
 });
+
+
+
 
 module.exports = db;

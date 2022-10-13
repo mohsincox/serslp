@@ -28,10 +28,8 @@ const widgetGetAll = (req, res) => {
 
 const widgetGet = (req, res) => {
     Widget.findByPk(req.params.id)
-    .then((widget) => res.status(200).send(widget))
-    .catch((err) => {
-        res.status(400).send(err);
-    });
+    .then((widget) => {res.status(200).send(widget)})
+    .catch((err) => {res.status(400).send(err);});
 };
 
 const widgetUpdate = (req, res) => {

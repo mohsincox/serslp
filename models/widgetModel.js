@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.TINYINT,
+      defaultValue: 1
     },
     created_by: {
       type: DataTypes.INTEGER,

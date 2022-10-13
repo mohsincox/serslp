@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const {
-  widgetAdd,
-  widgetGetAll,
-  widgetGet,
-  widgetUpdate,
-  widgetDelete,
-} = require("../controllers/widgetController");
-// const {widgetDuplicateCheck, widgetDuplicateCheckUpdate} = require("../middlewares/widgetMiddleware");
+  adsAdd,
+  adsGetAll,
+  adsGet,
+  adsUpdate,
+  adsDelete,
+} = require("../controllers/adsController");
+// const {adsDuplicateCheck, adsDuplicateCheckUpdate} = require("../middlewares/adsMiddleware");
 
 require("../config/passport")(passport);
 
@@ -19,12 +19,12 @@ router.post(
   //     session: false,
   //   }),
   // ],
-  widgetAdd
+  adsAdd
 );
 
-router.get("/", widgetGetAll);
+router.get("/", adsGetAll);
 
-router.get("/:id", widgetGet);
+router.get("/:id", adsGet);
 
 router.put(
   "/:id",
@@ -34,7 +34,7 @@ router.put(
   //   }),
   //
   // ],
-  widgetUpdate
+  adsUpdate
 );
 
 router.delete(
@@ -42,7 +42,7 @@ router.delete(
   // passport.authenticate("jwt", {
   //   session: false,
   // }),
-  widgetDelete
+  adsDelete
 );
 
 module.exports = router;
