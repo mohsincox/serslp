@@ -24,6 +24,7 @@ const matchAdd = (req, res) => {
           start_date: req.body.start_date,
           start_time: req.body.start_time,
           venue: req.body.venue,
+          status: req.body.status,
         })
           .then((match) => res.status(201).send(match))
           .catch((err) => {
@@ -82,6 +83,54 @@ const matchGetAll = (req, res) => {
     });
 };
 
+const activeMatchGetAll = (req, res) => {
+  // helper
+  //   .checkPermission(req.user.role_id, "match_get_all")
+  //   .then((rolePerm) => {
+  Match.findAll({
+    where: {
+      status: "Active",
+    },
+    include: [
+      {
+        model: Tournament,
+      },
+      {
+        model: TournamentTeam,
+        as: "tournament_team_one",
+        include: [
+          {
+            model: Country,
+          },
+          {
+            model: Franchise,
+          },
+        ],
+      },
+      {
+        model: TournamentTeam,
+        as: "tournament_team_two",
+        include: [
+          {
+            model: Country,
+          },
+          {
+            model: Franchise,
+          },
+        ],
+      },
+    ],
+  })
+    .then((matchs) => res.status(200).send(matchs))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+  // })
+  // .catch((err) => {
+  //   res.status(403).send(err);
+  // });
+};
+
 const matchGet = (req, res) => {
   helper
     .checkPermission(req.user.role_id, "match_get")
@@ -121,6 +170,7 @@ const matchUpdate = (req, res) => {
                 start_date: req.body.start_date || match.start_date,
                 start_time: req.body.start_time || match.start_time,
                 venue: req.body.venue || match.venue,
+                status: req.body.status || match.status,
               },
               {
                 where: {
@@ -191,4 +241,5 @@ module.exports = {
   matchGet,
   matchUpdate,
   matchDelete,
+  activeMatchGetAll,
 };

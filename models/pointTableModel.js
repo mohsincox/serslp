@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     wicket: {
       type: DataTypes.INTEGER,
     },
-    nam_of_the_match: {
+    man_of_the_match: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },

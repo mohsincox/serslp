@@ -201,4 +201,25 @@ db.tournamentTeamPlayerDetail.belongsTo(db.player, {
   foreignKey: "player_id",
 });
 
+db.match.hasMany(db.pointTable, {
+  foreignKey: "match_id",
+});
+db.pointTable.belongsTo(db.match, {
+  foreignKey: "match_id",
+});
+
+db.player.hasMany(db.pointTable, {
+  foreignKey: "player_id",
+});
+db.pointTable.belongsTo(db.player, {
+  foreignKey: "player_id",
+});
+
+db.tournamentTeam.hasMany(db.pointTable, {
+  foreignKey: "tournament_team_id",
+});
+db.pointTable.belongsTo(db.tournamentTeam, {
+  foreignKey: "tournament_team_id",
+});
+
 module.exports = db;

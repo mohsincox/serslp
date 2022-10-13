@@ -7,6 +7,7 @@ const {
   matchGet,
   matchUpdate,
   matchDelete,
+  activeMatchGetAll,
 } = require("../controllers/matchController");
 
 require("../config/passport")(passport);
@@ -28,6 +29,14 @@ router.get(
     session: false,
   }),
   matchGetAll
+);
+
+router.get(
+  "/active/",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  activeMatchGetAll
 );
 
 router.get(

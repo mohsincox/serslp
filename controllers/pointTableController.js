@@ -1,5 +1,11 @@
 const db = require("../models");
 const PointTable = db.pointTable;
+const Match = db.match;
+const Tournament = db.tournament;
+const TournamentTeam = db.tournamentTeam;
+const Country = db.country;
+const Franchise = db.franchise;
+const Player = db.player;
 const Helper = require("../utils/helper");
 const helper = new Helper();
 
@@ -14,12 +20,11 @@ const pointTableAdd = (req, res) => {
   } else {
     PointTable.create({
       match_id: req.body.match_id,
-      tournament_id: req.body.tournament_id,
       tournament_team_id: req.body.tournament_team_id,
       player_id: req.body.player_id,
       run: req.body.run,
       wicket: req.body.wicket,
-      nam_of_the_match: req.body.nam_of_the_match,
+      man_of_the_match: req.body.man_of_the_match,
       fifty: req.body.fifty,
       hundred: req.body.hundred,
       five_wickets: req.body.five_wickets,
@@ -40,7 +45,56 @@ const pointTableGetAll = (req, res) => {
   //   helper
   //     .checkPermission(req.user.role_id, "point_table_get_all")
   //     .then((rolePerm) => {
-  PointTable.findAll()
+  PointTable.findAll({
+    include: [
+      {
+        model: Match,
+        include: [
+          {
+            model: Tournament,
+          },
+          {
+            model: TournamentTeam,
+            as: "tournament_team_one",
+            include: [
+              {
+                model: Country,
+              },
+              {
+                model: Franchise,
+              },
+            ],
+          },
+          {
+            model: TournamentTeam,
+            as: "tournament_team_two",
+            include: [
+              {
+                model: Country,
+              },
+              {
+                model: Franchise,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        model: Player,
+      },
+      {
+        model: TournamentTeam,
+        include: [
+          {
+            model: Country,
+          },
+          {
+            model: Franchise,
+          },
+        ],
+      },
+    ],
+  })
     .then((pointTables) => res.status(200).send(pointTables))
     .catch((err) => {
       res.status(400).send(err);
@@ -70,17 +124,26 @@ const pointTableUpdate = (req, res) => {
   //   helper
   //     .checkPermission(req.user.role_id, "point_table_update")
   //     .then((rolePerm) => {
-  if (!req.params.id || !req.body.name) {
+  if (!req.params.id || !req.body.match_id) {
     res.status(400).send({
-      msg: "Please pass pointTable ID, name",
+      msg: "Please pass pointTable ID, match_id",
     });
   } else {
     PointTable.findByPk(req.params.id)
       .then((pointTable) => {
         PointTable.update(
           {
-            name: req.body.name || pointTable.name,
-            detail: req.body.detail || pointTable.detail,
+            match_id: req.body.match_id || pointTable.match_id,
+            tournament_team_id:
+              req.body.tournament_team_id || pointTable.tournament_team_id,
+            player_id: req.body.player_id || pointTable.player_id,
+            run: req.body.run || pointTable.run,
+            wicket: req.body.wicket || pointTable.wicket,
+            man_of_the_match:
+              req.body.man_of_the_match || pointTable.man_of_the_match,
+            fifty: req.body.fifty || pointTable.fifty,
+            hundred: req.body.hundred || pointTable.hundred,
+            five_wickets: req.body.five_wickets || pointTable.five_wickets,
           },
           {
             where: {
