@@ -86,6 +86,26 @@ const playerGetAll = (req, res) => {
     });
 };
 
+const allPlayerGetAll = (req, res) => {
+  Player.findAll({
+    include: [
+      {
+        model: Game,
+      },
+      {
+        model: Country,
+      },
+      {
+        model: Franchise,
+      },
+    ],
+  })
+    .then((players) => res.status(200).send(players))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
 const playerCountryGetAll = (req, res) => {
   helper
     .checkPermission(req.user.role_id, "player_get_all")
@@ -279,4 +299,5 @@ module.exports = {
   playerDelete,
   uploadPlayerImage,
   playerCountryGetAll,
+  allPlayerGetAll,
 };

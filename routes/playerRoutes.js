@@ -9,6 +9,7 @@ const {
   playerDelete,
   playerUpdate,
   playerCountryGetAll,
+  allPlayerGetAll,
 } = require("../controllers/playerController");
 
 require("../config/passport")(passport);
@@ -32,6 +33,8 @@ router.get(
   }),
   playerGetAll
 );
+
+router.get("/all/", allPlayerGetAll);
 
 router.get(
   "/country/:id",

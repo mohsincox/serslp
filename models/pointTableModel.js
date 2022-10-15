@@ -3,15 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     match_id: {
       type: DataTypes.INTEGER,
     },
-    tournament_id: {
-      type: DataTypes.INTEGER,
-    },
-    tournament_team_one_id: {
-      type: DataTypes.INTEGER,
-    },
-    tournament_team_two_id: {
-      type: DataTypes.INTEGER,
-    },
     tournament_team_id: {
       type: DataTypes.INTEGER,
     },

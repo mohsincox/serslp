@@ -8,6 +8,10 @@ const {
   pointTableUpdate,
   pointTableDelete,
 } = require("../controllers/pointTableController");
+const {
+  pointTableDuplicateCheck,
+  pointTableDuplicateCheckUpdate,
+} = require("../middlewares/pointTableMiddleware");
 
 require("../config/passport")(passport);
 
@@ -17,6 +21,7 @@ router.post(
     passport.authenticate("jwt", {
       session: false,
     }),
+    pointTableDuplicateCheck,
   ],
   pointTableAdd
 );
@@ -43,6 +48,7 @@ router.put(
     passport.authenticate("jwt", {
       session: false,
     }),
+    pointTableDuplicateCheckUpdate,
   ],
   pointTableUpdate
 );
