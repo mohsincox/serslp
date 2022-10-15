@@ -3,6 +3,9 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
     },
+    position: {
+      type: DataTypes.INTEGER,
+    },
     image: {
       type: DataTypes.STRING,
     },

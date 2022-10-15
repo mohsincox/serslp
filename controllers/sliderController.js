@@ -17,6 +17,7 @@ const sliderAdd = (req, res) => {
         if (req.file == undefined) {
           Slider.create({
             name: req.body.name,
+            position: req.body.position,
             image: "",
           })
             .then((slider) => res.status(201).send(slider))
@@ -27,6 +28,7 @@ const sliderAdd = (req, res) => {
         } else {
           Slider.create({
             name: req.body.name,
+            position: req.body.position,
             image: req.file.path,
           })
             .then((slider) => res.status(201).send(slider))
@@ -87,6 +89,7 @@ const sliderUpdate = (req, res) => {
               Slider.update(
                 {
                   name: req.body.name || slider.name,
+                  position: req.body.position || slider.position,
                 },
                 {
                   where: {
@@ -110,6 +113,7 @@ const sliderUpdate = (req, res) => {
               Slider.update(
                 {
                   name: req.body.name || slider.name,
+                  position: req.body.position || slider.position,
                   image: req.file.path,
                 },
                 {
