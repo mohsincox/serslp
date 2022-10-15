@@ -7,6 +7,7 @@ const {
   adsGet,
   adsUpdate,
   adsDelete,
+    uploadAdsImage
 } = require("../controllers/adsController");
 // const {adsDuplicateCheck, adsDuplicateCheckUpdate} = require("../middlewares/adsMiddleware");
 
@@ -19,6 +20,7 @@ router.post(
   //     session: false,
   //   }),
   // ],
+  uploadAdsImage,
   adsAdd
 );
 

@@ -1,10 +1,12 @@
+const multer = require("multer");
+const path = require("path");
 const db = require("../models");
 const Ads = db.ads;
 const Helper = require("../utils/helper");
 const helper = new Helper();
 
 const adsAdd = (req, res) => {
-    if (!req.body.name || !req.body.status || !req.body.img_src) {
+    if (!req.body.name || !req.body.status) {
         res.status(400).send({
             msg: "Ads name and status is required",
         });
@@ -12,7 +14,7 @@ const adsAdd = (req, res) => {
         Ads.create({
             name: req.body.name,
             status: req.body.status,
-            img_src: req.body.img_src,
+            img_src: req.file.path,
             widget_id: req.body.widget_id,
             link: req.body.link,
             page_name: req.body.page_name,
@@ -113,10 +115,36 @@ const adsDelete = (req, res) => {
     }
 };
 
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "Images");
+    },
+    filename: (req, file, cb) => {
+        cb(null, "Ads_" + Date.now() + path.extname(file.originalname));
+    },
+});
+
+const uploadAdsImage = multer({
+    storage: storage,
+    limits: { fileSize: "5000000" },
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /jpeg|jpg|png|gif/;
+        const mimeType = fileTypes.test(file.mimetype);
+        const extname = fileTypes.test(path.extname(file.originalname));
+
+        if (mimeType && extname) {
+            return cb(null, true);
+        }
+        cb("Give proper files format to upload");
+    },
+}).single("img_src");
+
 module.exports = {
   adsAdd,
   adsGetAll,
   adsGet,
   adsUpdate,
   adsDelete,
+uploadAdsImage
 };
