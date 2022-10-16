@@ -30,6 +30,7 @@ router.get("/:id", adsGet);
 
 router.put(
   "/:id",
+    uploadAdsImage,
   // [
   //   passport.authenticate("jwt", {
   //     session: false,

@@ -50,11 +50,15 @@ const adsUpdate = (req, res) => {
     } else {
         Ads.findByPk(req.params.id)
         .then((ads) => {
+            let imgSrc = ads.img_src;
+            if(req.file) {
+                imgSrc = req.file.path
+            }
             Ads.update(
                 {
                     name: req.body.name || ads.name,
                     status: req.body.status || ads.status,
-                    img_src: req.body.img_src || ads.img_src,
+                    img_src: imgSrc,
                     widget_id: req.body.widget_id || ads.widget_id,
                     link: req.body.link || ads.link,
                     page_name: req.body.page_name || ads.page_name,
@@ -77,6 +81,7 @@ const adsUpdate = (req, res) => {
                 .catch((err) => res.status(400).send(err));
         })
         .catch((error) => {
+            console.log(error);
             res.status(400).send(error);
         });
     }
@@ -146,5 +151,5 @@ module.exports = {
   adsGet,
   adsUpdate,
   adsDelete,
-uploadAdsImage
+  uploadAdsImage
 };
