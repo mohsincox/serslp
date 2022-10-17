@@ -44,6 +44,7 @@ db.tournamentTeamPlayerDetail = require("./tournamentTeamPlayerDetailModel.js")(
 );
 db.pointTable = require("./pointTableModel.js")(sequelize, Sequelize);
 db.settings = require("./settingsModel.js")(sequelize, Sequelize);
+db.club = require("./clubModel.js")(sequelize, Sequelize);
 
 // db.role = require("../models/role.model.js")(sequelize, Sequelize);
 
@@ -221,6 +222,27 @@ db.tournamentTeam.hasMany(db.pointTable, {
 });
 db.pointTable.belongsTo(db.tournamentTeam, {
   foreignKey: "tournament_team_id",
+});
+
+db.game.hasMany(db.club, {
+  foreignKey: "game_id",
+});
+db.club.belongsTo(db.game, {
+  foreignKey: "game_id",
+});
+
+db.country.hasMany(db.club, {
+  foreignKey: "country_id",
+});
+db.club.belongsTo(db.country, {
+  foreignKey: "country_id",
+});
+
+db.franchise.hasMany(db.club, {
+  foreignKey: "franchise_id",
+});
+db.club.belongsTo(db.franchise, {
+  foreignKey: "franchise_id",
 });
 
 module.exports = db;

@@ -29,6 +29,7 @@ app.use("/api/players", require("./routes/playerRoutes"));
 app.use("/api/sliders", require("./routes/sliderRoutes"));
 app.use("/api/matches", require("./routes/matchRoutes"));
 app.use("/api/franchises", require("./routes/franchiseRoutes"));
+app.use("/api/clubs", require("./routes/clubRoutes"));
 app.use("/api/tournament-teams", require("./routes/tournamentTeamRoutes"));
 app.use(
   "/api/tournament-team-players",
