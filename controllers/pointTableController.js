@@ -6,6 +6,8 @@ const TournamentTeam = db.tournamentTeam;
 const Country = db.country;
 const Franchise = db.franchise;
 const Player = db.player;
+const TeamDetail = db.teamDetail;
+const Settings = db.settings;
 const Helper = require("../utils/helper");
 const helper = new Helper();
 
@@ -18,20 +20,47 @@ const pointTableAdd = (req, res) => {
       msg: "Please pass point table name.",
     });
   } else {
-    PointTable.create({
-      match_id: req.body.match_id,
-      tournament_team_id: req.body.tournament_team_id,
-      player_id: req.body.player_id,
-      run: req.body.run,
-      wicket: req.body.wicket,
-      man_of_the_match: req.body.man_of_the_match,
-      fifty: req.body.fifty,
-      hundred: req.body.hundred,
-      five_wickets: req.body.five_wickets,
-    })
-      .then((pointTable) => res.status(201).send(pointTable))
+    Settings.findByPk(1)
+      .then((settings) => {
+        PointTable.create({
+          match_id: req.body.match_id,
+          tournament_team_id: req.body.tournament_team_id,
+          player_id: req.body.player_id,
+          run: req.body.run,
+          wicket: req.body.wicket,
+          man_of_the_match: req.body.man_of_the_match,
+          fifty: req.body.fifty,
+          hundred: req.body.hundred,
+          five_wickets: req.body.five_wickets,
+        })
+          .then((pointTable) =>
+            TeamDetail.increment(
+              {
+                total_point:
+                  +(settings.run_point * req.body.run) +
+                  settings.wicket_point * req.body.wicket +
+                  settings.man_of_the_match_point * req.body.man_of_the_match +
+                  settings.fifty_point * req.body.fifty +
+                  settings.hundred_point * req.body.hundred +
+                  settings.five_wickets_point * req.body.five_wickets,
+              },
+              { where: { player_id: pointTable.player_id } }
+            )
+              .then((_) => {
+                // res.status(200).send({
+                //   msg: "Match updated",
+                // });
+                res.status(201).send(pointTable);
+              })
+              .catch((err) => res.status(400).send(err))
+          )
+          .catch((err) => {
+            console.log(err);
+            res.status(400).send(err);
+          });
+      })
       .catch((err) => {
-        console.log(err);
+        console.log("Err Settings", err);
         res.status(400).send(err);
       });
   }

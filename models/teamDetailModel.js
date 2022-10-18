@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     player_id: {
       type: DataTypes.INTEGER,
     },
+    total_point: {
+      type: DataTypes.DOUBLE(8, 2),
+      allowNull: false,
+      defaultValue: 0.0,
+    },
     created_by: {
       type: DataTypes.INTEGER,
     },
