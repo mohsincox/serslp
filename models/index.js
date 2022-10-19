@@ -45,6 +45,7 @@ db.pointTable = require("./pointTableModel.js")(sequelize, Sequelize);
 
 db.widget = require("./widgetModel.js")(sequelize, Sequelize);
 db.ads = require("./adsModel.js")(sequelize, Sequelize);
+db.page = require("./pageModel.js")(sequelize, Sequelize);
 
 db.widget.hasMany(db.ads, {
   foreignKey: "widget_id"
