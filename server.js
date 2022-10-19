@@ -43,6 +43,7 @@ app.use("/api/ws-teams", require("./routes/wsTeamRoutes"));
 app.use("/api/ws-sliders", require("./routes/wsSliderRoutes"));
 app.use("/api/ws-fixtures", require("./routes/wsFixtureRoutes"));
 app.use("/api/ws-news", require("./routes/wsNewsRoutes"));
+app.use("/api/ws-rankings", require("./routes/wsRankingRoutes"));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

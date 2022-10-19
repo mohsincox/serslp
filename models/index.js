@@ -245,4 +245,18 @@ db.club.belongsTo(db.franchise, {
   foreignKey: "franchise_id",
 });
 
+db.user.hasMany(db.teamDetail, {
+  foreignKey: "user_id",
+});
+db.teamDetail.belongsTo(db.user, {
+  foreignKey: "user_id",
+});
+
+db.tournament.hasMany(db.teamDetail, {
+  foreignKey: "tournament_id",
+});
+db.teamDetail.belongsTo(db.tournament, {
+  foreignKey: "tournament_id",
+});
+
 module.exports = db;
