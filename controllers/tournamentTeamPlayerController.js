@@ -11,132 +11,134 @@ const Helper = require("../utils/helper");
 const helper = new Helper();
 
 const tournamentTeamPlayerAdd = async (req, res) => {
-  //   helper
-  //     .checkPermission(req.user.role_id, "game_add")
-  //     .then((rolePerm) => {
-  if (!req.body.tournament_id || !req.body.tournament_team_id) {
-    res.status(400).send({
-      msg: "Please pass Tournament ID, Team ID",
-    });
-  } else {
-    const teamPlayerFind = await TournamentTeamPlayer.findOne({
-      where: {
-        tournament_id: req.body.tournament_id,
-        tournament_team_id: req.body.tournament_team_id,
-      },
-    });
-
-    console.log("---------", teamPlayerFind);
-
-    if (teamPlayerFind === null) {
-      TournamentTeamPlayerDetail.destroy({
-        where: {
-          tournament_team_id: req.body.tournament_team_id,
-        },
-      });
-
-      TournamentTeamPlayer.create({
-        tournament_id: req.body.tournament_id,
-        tournament_team_id: req.body.tournament_team_id,
-        player_ids: req.body.player_ids,
-      })
-        .then((tournamentTeamPlayer) => {
-          const selectedPlayers = JSON.parse(req.body.player_ids);
-
-          for (i = 0; i < selectedPlayers.length; i++) {
-            TournamentTeamPlayerDetail.create({
-              tournament_team_player_id: tournamentTeamPlayer.id,
-              tournament_id: req.body.tournament_id,
-              tournament_team_id: req.body.tournament_team_id,
-              player_id: selectedPlayers[i],
-            });
-          }
-        })
-        .then((tournamentTeamPlayer) =>
-          res.status(201).send(tournamentTeamPlayer)
-        )
-        .catch((err) => {
-          console.log(err);
-          res.status(400).send(err);
+  helper
+    .checkPermission(req.user.role_id, "tournament_team_player_add")
+    .then((rolePerm) => {
+      if (!req.body.tournament_id || !req.body.tournament_team_id) {
+        res.status(400).send({
+          msg: "Please pass Tournament ID, Team ID",
         });
-    } else {
-      console.log(teamPlayerFind instanceof TournamentTeamPlayer); // true
-      console.log(teamPlayerFind.tournament_id); // 'My Title'
-
-      TournamentTeamPlayerDetail.destroy({
-        where: {
-          tournament_team_id: req.body.tournament_team_id,
-        },
-      });
-
-      teamPlayerFind
-        .update({
-          tournament_id: req.body.tournament_id,
-          tournament_team_id: req.body.tournament_team_id,
-          player_ids: req.body.player_ids,
-        })
-        .then((tournamentTeamPlayer) => {
-          const selectedPlayers = JSON.parse(req.body.player_ids);
-
-          for (i = 0; i < selectedPlayers.length; i++) {
-            TournamentTeamPlayerDetail.create({
-              tournament_team_player_id: tournamentTeamPlayer.id,
+      } else {
+        (async () => {
+          const teamPlayerFind = await TournamentTeamPlayer.findOne({
+            where: {
               tournament_id: req.body.tournament_id,
               tournament_team_id: req.body.tournament_team_id,
-              player_id: selectedPlayers[i],
-            });
-          }
-        })
-        .then((_) => {
-          res.status(200).send({
-            msg: "TournamentTeamPlayer updated",
+            },
           });
-        })
-        .catch((err) => res.status(400).send(err));
-    }
 
-    // return;
+          console.log("---------", teamPlayerFind);
 
-    // TournamentTeamPlayerDetail.destroy({
-    //   where: {
-    //     tournament_team_id: req.body.tournament_team_id,
-    //   },
-    // });
+          if (teamPlayerFind === null) {
+            TournamentTeamPlayerDetail.destroy({
+              where: {
+                tournament_team_id: req.body.tournament_team_id,
+              },
+            });
 
-    // TournamentTeamPlayer.create({
-    //   tournament_id: req.body.tournament_id,
-    //   tournament_team_id: req.body.tournament_team_id,
-    //   player_ids: req.body.player_ids,
-    // })
-    //   .then((tournamentTeamPlayer) => {
-    //     const selectedPlayers = JSON.parse(req.body.player_ids);
+            TournamentTeamPlayer.create({
+              tournament_id: req.body.tournament_id,
+              tournament_team_id: req.body.tournament_team_id,
+              player_ids: req.body.player_ids,
+            })
+              .then((tournamentTeamPlayer) => {
+                const selectedPlayers = JSON.parse(req.body.player_ids);
 
-    //     for (i = 0; i < selectedPlayers.length; i++) {
-    //       TournamentTeamPlayerDetail.create({
-    //         tournament_team_player_id: tournamentTeamPlayer.id,
-    //         tournament_id: req.body.tournament_id,
-    //         tournament_team_id: req.body.tournament_team_id,
-    //         player_id: selectedPlayers[i],
-    //       });
-    //     }
-    //   })
-    //   .then((tournamentTeamPlayer) =>
-    //     res.status(201).send(tournamentTeamPlayer)
-    //   )
-    //   .catch((err) => {
-    //     console.log(err);
-    //     res.status(400).send(err);
-    //   });
-  }
-  // })
-  // .catch((error) => {
-  //   res.status(403).send(error);
-  // });
+                for (i = 0; i < selectedPlayers.length; i++) {
+                  TournamentTeamPlayerDetail.create({
+                    tournament_team_player_id: tournamentTeamPlayer.id,
+                    tournament_id: req.body.tournament_id,
+                    tournament_team_id: req.body.tournament_team_id,
+                    player_id: selectedPlayers[i],
+                  });
+                }
+              })
+              .then((tournamentTeamPlayer) =>
+                res.status(201).send(tournamentTeamPlayer)
+              )
+              .catch((err) => {
+                console.log(err);
+                res.status(400).send(err);
+              });
+          } else {
+            console.log(teamPlayerFind instanceof TournamentTeamPlayer); // true
+            console.log(teamPlayerFind.tournament_id); // 'My Title'
+
+            TournamentTeamPlayerDetail.destroy({
+              where: {
+                tournament_team_id: req.body.tournament_team_id,
+              },
+            });
+
+            teamPlayerFind
+              .update({
+                tournament_id: req.body.tournament_id,
+                tournament_team_id: req.body.tournament_team_id,
+                player_ids: req.body.player_ids,
+              })
+              .then((tournamentTeamPlayer) => {
+                const selectedPlayers = JSON.parse(req.body.player_ids);
+
+                for (i = 0; i < selectedPlayers.length; i++) {
+                  TournamentTeamPlayerDetail.create({
+                    tournament_team_player_id: tournamentTeamPlayer.id,
+                    tournament_id: req.body.tournament_id,
+                    tournament_team_id: req.body.tournament_team_id,
+                    player_id: selectedPlayers[i],
+                  });
+                }
+              })
+              .then((_) => {
+                res.status(200).send({
+                  msg: "TournamentTeamPlayer updated",
+                });
+              })
+              .catch((err) => res.status(400).send(err));
+          }
+
+          // return;
+
+          // TournamentTeamPlayerDetail.destroy({
+          //   where: {
+          //     tournament_team_id: req.body.tournament_team_id,
+          //   },
+          // });
+
+          // TournamentTeamPlayer.create({
+          //   tournament_id: req.body.tournament_id,
+          //   tournament_team_id: req.body.tournament_team_id,
+          //   player_ids: req.body.player_ids,
+          // })
+          //   .then((tournamentTeamPlayer) => {
+          //     const selectedPlayers = JSON.parse(req.body.player_ids);
+
+          //     for (i = 0; i < selectedPlayers.length; i++) {
+          //       TournamentTeamPlayerDetail.create({
+          //         tournament_team_player_id: tournamentTeamPlayer.id,
+          //         tournament_id: req.body.tournament_id,
+          //         tournament_team_id: req.body.tournament_team_id,
+          //         player_id: selectedPlayers[i],
+          //       });
+          //     }
+          //   })
+          //   .then((tournamentTeamPlayer) =>
+          //     res.status(201).send(tournamentTeamPlayer)
+          //   )
+          //   .catch((err) => {
+          //     console.log(err);
+          //     res.status(400).send(err);
+          //   });
+        })();
+      }
+    })
+    .catch((error) => {
+      res.status(403).send(error);
+    });
 };
 
 const tournamentTeamPlayerGetAll = (req, res) => {
   //   helper
-  //     .checkPermission(req.user.role_id, "game_get_all")
+  //     .checkPermission(req.user.role_id, "tournament_team_player_get_all")
   //     .then((rolePerm) => {
   TournamentTeamPlayer.findAll({
     include: [
@@ -170,7 +172,7 @@ const tournamentTeamPlayerGetAll = (req, res) => {
 
 const matchTournamentTeamPlayerGetAll = (req, res) => {
   //   helper
-  //     .checkPermission(req.user.role_id, "game_get_all")
+  //     .checkPermission(req.user.role_id, "_get_all")
   //     .then((rolePerm) => {
   console.log("first hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
   TournamentTeamPlayerDetail.findAll({
@@ -195,7 +197,7 @@ const matchTournamentTeamPlayerGetAll = (req, res) => {
 
 const teamTournamentGetAll = (req, res) => {
   //   helper
-  //     .checkPermission(req.user.role_id, "game_get_all")
+  //     .checkPermission(req.user.role_id, "_get_all")
   //     .then((rolePerm) => {
   TournamentTeam.findAll({
     where: {
@@ -232,7 +234,7 @@ const teamTournamentGetAll = (req, res) => {
 
 const gamePlayerGetAll = (req, res) => {
   //   helper
-  //     .checkPermission(req.user.role_id, "game_get_all")
+  //     .checkPermission(req.user.role_id, "_get_all")
   //     .then((rolePerm) => {
   Player.findAll({
     where: {
@@ -301,7 +303,7 @@ const tournamentTeamPlayerGet = (req, res) => {
 
 const tournamentTeamPlayerUpdate = (req, res) => {
   //   helper
-  //     .checkPermission(req.user.role_id, "game_update")
+  //     .checkPermission(req.user.role_id, "tournament_team_player_update")
   //     .then((rolePerm) => {
   if (!req.params.id || !req.body.tournament_id) {
     res.status(400).send({
@@ -339,49 +341,49 @@ const tournamentTeamPlayerUpdate = (req, res) => {
 };
 
 const tournamentTeamPlayerDelete = (req, res) => {
-  //   helper
-  //     .checkPermission(req.user.role_id, "game_delete")
-  //     .then((rolePerm) => {
-  if (!req.params.id) {
-    res.status(400).send({
-      msg: "Please pass TournamentTeamPlayer ID.",
-    });
-  } else {
-    TournamentTeamPlayerDetail.destroy({
-      where: {
-        tournament_team_player_id: req.params.id,
-      },
-    });
+  helper
+    .checkPermission(req.user.role_id, "tournament_team_player_delete")
+    .then((rolePerm) => {
+      if (!req.params.id) {
+        res.status(400).send({
+          msg: "Please pass TournamentTeamPlayer ID.",
+        });
+      } else {
+        TournamentTeamPlayerDetail.destroy({
+          where: {
+            tournament_team_player_id: req.params.id,
+          },
+        });
 
-    TournamentTeamPlayer.findByPk(req.params.id)
-      .then((tournamentTeamPlayer) => {
-        if (tournamentTeamPlayer) {
-          tournamentTeamPlayer
-            .destroy({
-              where: {
-                id: req.params.id,
-              },
-            })
-            .then((_) => {
-              res.status(200).send({
-                msg: "TournamentTeamPlayer deleted",
+        TournamentTeamPlayer.findByPk(req.params.id)
+          .then((tournamentTeamPlayer) => {
+            if (tournamentTeamPlayer) {
+              tournamentTeamPlayer
+                .destroy({
+                  where: {
+                    id: req.params.id,
+                  },
+                })
+                .then((_) => {
+                  res.status(200).send({
+                    msg: "TournamentTeamPlayer deleted",
+                  });
+                })
+                .catch((err) => res.status(400).send(err));
+            } else {
+              res.status(404).send({
+                msg: "TournamentTeamPlayer not found",
               });
-            })
-            .catch((err) => res.status(400).send(err));
-        } else {
-          res.status(404).send({
-            msg: "TournamentTeamPlayer not found",
+            }
+          })
+          .catch((error) => {
+            res.status(400).send(error);
           });
-        }
-      })
-      .catch((error) => {
-        res.status(400).send(error);
-      });
-  }
-  // })
-  // .catch((error) => {
-  //   res.status(403).send(error);
-  // });
+      }
+    })
+    .catch((error) => {
+      res.status(403).send(error);
+    });
 };
 
 module.exports = {
