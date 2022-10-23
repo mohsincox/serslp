@@ -137,37 +137,37 @@ const tournamentTeamPlayerAdd = async (req, res) => {
 };
 
 const tournamentTeamPlayerGetAll = (req, res) => {
-  //   helper
-  //     .checkPermission(req.user.role_id, "tournament_team_player_get_all")
-  //     .then((rolePerm) => {
-  TournamentTeamPlayer.findAll({
-    include: [
-      {
-        model: Tournament,
-      },
-      {
-        model: TournamentTeam,
+  helper
+    .checkPermission(req.user.role_id, "tournament_team_player_get_all")
+    .then((rolePerm) => {
+      TournamentTeamPlayer.findAll({
         include: [
           {
-            model: Country,
+            model: Tournament,
           },
           {
-            model: Franchise,
+            model: TournamentTeam,
+            include: [
+              {
+                model: Country,
+              },
+              {
+                model: Franchise,
+              },
+            ],
           },
         ],
-      },
-    ],
-  })
-    .then((tournamentTeamPlayers) =>
-      res.status(200).send(tournamentTeamPlayers)
-    )
+      })
+        .then((tournamentTeamPlayers) =>
+          res.status(200).send(tournamentTeamPlayers)
+        )
+        .catch((err) => {
+          res.status(400).send(err);
+        });
+    })
     .catch((err) => {
-      res.status(400).send(err);
+      res.status(403).send(err);
     });
-  // })
-  // .catch((err) => {
-  //   res.status(403).send(err);
-  // });
 };
 
 const matchTournamentTeamPlayerGetAll = (req, res) => {
