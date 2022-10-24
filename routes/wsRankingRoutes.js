@@ -45,6 +45,8 @@ router.get("/test/:id", (req, res) => {
     ],
     group: "team_id",
     where: { tournament_id: req.params.id },
+    order: sequelize.literal("total_point DESC"),
+    // limit: 2,
     include: [
       {
         model: User,
@@ -54,7 +56,6 @@ router.get("/test/:id", (req, res) => {
       },
     ],
   })
-
     .then((tournaments) => res.status(200).send(tournaments))
     .catch((err) => {
       res.status(400).send(err);

@@ -38,21 +38,25 @@ app.use(
 app.use("/api/point-tables", require("./routes/pointTableRoutes"));
 app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/settings", require("./routes/settingsRoutes"));
+app.use("/commonapi", require("./routes/commonRoutes"));
 app.use("/api/ws-tournaments", require("./routes/wsTournamentRoutes"));
 app.use("/api/ws-teams", require("./routes/wsTeamRoutes"));
 app.use("/api/ws-my-team", require("./routes/wsMyTeamRoutes"));
 app.use("/api/ws-sliders", require("./routes/wsSliderRoutes"));
 app.use("/api/ws-fixtures", require("./routes/wsFixtureRoutes"));
 app.use("/api/ws-news", require("./routes/wsNewsRoutes"));
-
 app.use("/api/ws-rankings", require("./routes/wsRankingRoutes"));
+app.use(
+  "/api/ws-dream-team-rankings",
+  require("./routes/wsDreamTeamRankingRoutes")
+);
 
 app.use("/api/widget", require("./routes/widgetRoutes"));
 app.use("/api/ads", require("./routes/adsRoutes"));
 app.use("/api/page", require("./routes/pageRoutes"));
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.redirect("https://shoplover.com/");
 });
 
 app.listen(port, () => {
