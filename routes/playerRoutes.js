@@ -10,6 +10,7 @@ const {
   playerUpdate,
   playerCountryGetAll,
   allPlayerGetAll,
+  playerGetAllActive,
 } = require("../controllers/playerController");
 
 require("../config/passport")(passport);
@@ -32,6 +33,14 @@ router.get(
     session: false,
   }),
   playerGetAll
+);
+
+router.get(
+  "/active",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  playerGetAllActive
 );
 
 router.get("/all/", allPlayerGetAll);

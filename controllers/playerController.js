@@ -86,6 +86,36 @@ const playerGetAll = (req, res) => {
     });
 };
 
+const playerGetAllActive = (req, res) => {
+  // helper
+  //   .checkPermission(req.user.role_id, "player_get_all")
+  //   .then((rolePerm) => {
+  Player.findAll({
+    where: {
+      status: "Active",
+    },
+    include: [
+      {
+        model: Game,
+      },
+      {
+        model: Country,
+      },
+      {
+        model: Franchise,
+      },
+    ],
+  })
+    .then((players) => res.status(200).send(players))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+  // })
+  // .catch((err) => {
+  //   res.status(403).send(err);
+  // });
+};
+
 const allPlayerGetAll = (req, res) => {
   Player.findAll({
     include: [
@@ -300,4 +330,5 @@ module.exports = {
   uploadPlayerImage,
   playerCountryGetAll,
   allPlayerGetAll,
+  playerGetAllActive,
 };

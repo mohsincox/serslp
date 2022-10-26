@@ -38,6 +38,7 @@ app.use(
 app.use("/api/point-tables", require("./routes/pointTableRoutes"));
 app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/settings", require("./routes/settingsRoutes"));
+app.use("/api/auth-users", require("./routes/authUserRoutes"));
 app.use("/commonapi", require("./routes/commonRoutes"));
 app.use("/api/ws-tournaments", require("./routes/wsTournamentRoutes"));
 app.use("/api/ws-teams", require("./routes/wsTeamRoutes"));
