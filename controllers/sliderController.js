@@ -193,7 +193,7 @@ const uploadSliderImage = multer({
   storage: storage,
   limits: { fileSize: "5000000" },
   fileFilter: (req, file, cb) => {
-    const fileTypes = /jpeg|jpg|png|gif/;
+    const fileTypes = /jpeg|jpg|png|gif|svg/;
     const mimeType = fileTypes.test(file.mimetype);
     const extname = fileTypes.test(path.extname(file.originalname));
 
