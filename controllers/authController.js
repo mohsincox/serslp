@@ -43,10 +43,6 @@ const registerUser = (req, res) => {
                 },
               ],
             }).then((userrole) => {
-              console.log("first rrrrrrrrrrrrrrrpppppppp1");
-              console.log("first rrrrrrrrrrrrrrrpppppppp2", userrole);
-              console.log("first rrrrrrrrrrrrrrrpppppppp3");
-
               var token = jwt.sign(
                 JSON.parse(JSON.stringify(user)),
                 authConfig.secret,
@@ -98,7 +94,8 @@ const loginUser = (req, res) => {
     .then((user) => {
       if (!user) {
         return res.status(401).send({
-          message: "Authentication failed. User not found.",
+          // message: "Authentication failed. User not found.",
+          msg: "Invalid login credentials.",
         });
       }
 
@@ -110,7 +107,8 @@ const loginUser = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!",
+          // message: "Invalid Password!",
+          msg: "Invalid login credentials",
         });
       }
 
