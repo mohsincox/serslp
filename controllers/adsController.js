@@ -167,7 +167,7 @@ const storage = multer.diskStorage({
     cb(null, "Images");
   },
   filename: (req, file, cb) => {
-    cb(null, "Ads_" + Date.now() + path.extname(file.originalname));
+    cb(null, "widget_" + Date.now() + path.extname(file.originalname));
   },
 });
 

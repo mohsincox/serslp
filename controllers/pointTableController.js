@@ -154,42 +154,72 @@ const pointTableUpdate = (req, res) => {
   helper
     .checkPermission(req.user.role_id, "point_table_update")
     .then((rolePerm) => {
+      // console.log("firstfgfhf======", req.body);
+      // return;
       if (!req.params.id || !req.body.match_id) {
         res.status(400).send({
           msg: "Please pass pointTable ID, match_id",
         });
       } else {
-        PointTable.findByPk(req.params.id)
-          .then((pointTable) => {
-            PointTable.update(
-              {
-                match_id: req.body.match_id || pointTable.match_id,
-                tournament_team_id:
-                  req.body.tournament_team_id || pointTable.tournament_team_id,
-                player_id: req.body.player_id || pointTable.player_id,
-                run: req.body.run || pointTable.run,
-                wicket: req.body.wicket || pointTable.wicket,
-                man_of_the_match:
-                  req.body.man_of_the_match || pointTable.man_of_the_match,
-                fifty: req.body.fifty || pointTable.fifty,
-                hundred: req.body.hundred || pointTable.hundred,
-                five_wickets: req.body.five_wickets || pointTable.five_wickets,
-              },
-              {
-                where: {
-                  id: req.params.id,
-                },
-              }
-            )
-              .then((_) => {
-                res.status(200).send({
-                  msg: "PointTable updated",
-                });
+        Settings.findByPk(1)
+          .then((settings) => {
+            PointTable.findByPk(req.params.id)
+              .then((pointTable) => {
+                PointTable.update(
+                  {
+                    match_id: req.body.match_id,
+                    tournament_team_id: req.body.tournament_team_id,
+                    player_id: req.body.player_id,
+                    run: req.body.run,
+                    wicket: req.body.wicket,
+                    man_of_the_match: req.body.man_of_the_match,
+                    fifty: req.body.fifty,
+                    hundred: req.body.hundred,
+                    five_wickets: req.body.five_wickets,
+                  },
+                  {
+                    where: {
+                      id: req.params.id,
+                    },
+                  }
+                )
+                  .then((pointTableUpdate) => {
+                    TeamDetail.increment(
+                      {
+                        total_point:
+                          +(settings.run_point * req.body.run) +
+                          settings.wicket_point * req.body.wicket +
+                          settings.man_of_the_match_point *
+                            req.body.man_of_the_match +
+                          settings.fifty_point * req.body.fifty +
+                          settings.hundred_point * req.body.hundred +
+                          settings.five_wickets_point * req.body.five_wickets -
+                          (settings.run_point * pointTable.run +
+                            settings.wicket_point * pointTable.wicket +
+                            settings.man_of_the_match_point *
+                              pointTable.man_of_the_match +
+                            settings.fifty_point * pointTable.fifty +
+                            settings.hundred_point * pointTable.hundred +
+                            settings.five_wickets_point *
+                              pointTable.five_wickets),
+                      },
+                      { where: { player_id: req.body.player_id } }
+                    );
+                  })
+                  .then((_) => {
+                    res.status(200).send({
+                      msg: "Point Table updated",
+                    });
+                  })
+                  .catch((err) => res.status(400).send(err));
               })
-              .catch((err) => res.status(400).send(err));
+              .catch((error) => {
+                res.status(400).send(error);
+              });
           })
-          .catch((error) => {
-            res.status(400).send(error);
+          .catch((err) => {
+            console.log("Err Settings", err);
+            res.status(400).send(err);
           });
       }
     })
@@ -207,29 +237,57 @@ const pointTableDelete = (req, res) => {
           msg: "Please pass pointTable ID.",
         });
       } else {
-        PointTable.findByPk(req.params.id)
-          .then((pointTable) => {
-            if (pointTable) {
-              pointTable
-                .destroy({
-                  where: {
-                    id: req.params.id,
-                  },
-                })
-                .then((_) => {
-                  res.status(200).send({
-                    msg: "Point Table deleted",
+        Settings.findByPk(1)
+          .then((settings) => {
+            PointTable.findByPk(req.params.id)
+              .then((pointTable) => {
+                if (pointTable) {
+                  TeamDetail.increment(
+                    {
+                      total_point: -(
+                        settings.run_point * pointTable.run +
+                        settings.wicket_point * pointTable.wicket +
+                        settings.man_of_the_match_point *
+                          pointTable.man_of_the_match +
+                        settings.fifty_point * pointTable.fifty +
+                        settings.hundred_point * pointTable.hundred +
+                        settings.five_wickets_point * pointTable.five_wickets
+                      ),
+                    },
+                    { where: { player_id: pointTable.player_id } }
+                  );
+                } else {
+                  res.status(404).send({
+                    msg: "Point Table not found",
                   });
-                })
-                .catch((err) => res.status(400).send(err));
-            } else {
-              res.status(404).send({
-                msg: "Point Table not found",
+                }
+
+                if (pointTable) {
+                  pointTable
+                    .destroy({
+                      where: {
+                        id: req.params.id,
+                      },
+                    })
+                    .then((_) => {
+                      res.status(200).send({
+                        msg: "Point Table deleted",
+                      });
+                    })
+                    .catch((err) => res.status(400).send(err));
+                } else {
+                  res.status(404).send({
+                    msg: "Point Table not found",
+                  });
+                }
+              })
+              .catch((error) => {
+                res.status(400).send(error);
               });
-            }
           })
-          .catch((error) => {
-            res.status(400).send(error);
+          .catch((err) => {
+            console.log("Err Settings", err);
+            res.status(400).send(err);
           });
       }
     })
