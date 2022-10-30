@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     logo: {
       type: DataTypes.STRING,
     },
+    status: {
+      type: DataTypes.STRING,
+    },
     created_by: {
       type: DataTypes.INTEGER,
     },
