@@ -63,8 +63,54 @@ const gameTournamentsGetAll = (req, res) => {
   // });
 };
 
+const gameTournamentsActiveGetAll = (req, res) => {
+  //   helper
+  //     .checkPermission(req.user.role_id, "permission_get_all")
+  //     .then((rolePerm) => {
+  Game.findAll({
+    include: [
+      {
+        model: Tournament,
+        where: { status: "Active" },
+      },
+    ],
+  })
+    .then((games) => res.status(200).send(games))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+  // })
+  // .catch((err) => {
+  //   res.status(403).send(err);
+  // });
+};
+
+const gameTournamentsUpcommingGetAll = (req, res) => {
+  //   helper
+  //     .checkPermission(req.user.role_id, "permission_get_all")
+  //     .then((rolePerm) => {
+  Game.findAll({
+    include: [
+      {
+        model: Tournament,
+        where: { upcomming: "Yes" },
+      },
+    ],
+  })
+    .then((games) => res.status(200).send(games))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+  // })
+  // .catch((err) => {
+  //   res.status(403).send(err);
+  // });
+};
+
 module.exports = {
   tournamentCricketGetAll,
   tournamentFootballGetAll,
   gameTournamentsGetAll,
+  gameTournamentsUpcommingGetAll,
+  gameTournamentsActiveGetAll,
 };

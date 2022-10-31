@@ -7,13 +7,17 @@ const {
   viewTeamDetail,
   confirmTeam,
 } = require("../controllers/wsTeamController");
+const { teamDuplicateCheck } = require("../middlewares/teamMiddleware");
 require("../config/passport")(passport);
 
 router.post(
   "/build",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+  [
+    passport.authenticate("jwt", {
+      session: false,
+    }),
+    teamDuplicateCheck,
+  ],
   teamAdd
 );
 
@@ -26,7 +30,7 @@ router.get(
 );
 
 router.get(
-  "/view-detail/:userId",
+  "/view-detail/:userId/:tourId",
   passport.authenticate("jwt", {
     session: false,
   }),
@@ -34,7 +38,7 @@ router.get(
 );
 
 router.get(
-  "/confirm/:userId",
+  "/confirm/:userId/:tourId",
   passport.authenticate("jwt", {
     session: false,
   }),

@@ -5,6 +5,8 @@ const {
   tournamentCricketGetAll,
   tournamentFootballGetAll,
   gameTournamentsGetAll,
+  gameTournamentsUpcommingGetAll,
+  gameTournamentsActiveGetAll,
 } = require("../controllers/wsTournamentController");
 require("../config/passport")(passport);
 
@@ -25,5 +27,7 @@ router.get(
 );
 
 router.get("/game-tournaments", gameTournamentsGetAll);
+router.get("/game-tournaments-upcomming", gameTournamentsUpcommingGetAll);
+router.get("/game-tournaments-active", gameTournamentsActiveGetAll);
 
 module.exports = router;

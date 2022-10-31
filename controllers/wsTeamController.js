@@ -77,6 +77,7 @@ const viewTeamDetail = (req, res) => {
   TeamDetail.findAll({
     where: {
       user_id: req.params.userId,
+      tournament_id: req.params.tourId,
     },
     include: [
       {
@@ -103,14 +104,14 @@ const confirmTeam = (req, res) => {
   //   helper
   //     .checkPermission(req.user.role_id, "permission_update")
   //     .then((rolePerm) => {
-  if (!req.params.userId) {
+  if (!req.params.userId || !req.params.tourId) {
     res.status(400).send({
-      msg: "Please pass user ID, name",
+      msg: "Please pass user ID, name, tournament",
     });
   } else {
     Team.findOne({
-      where: { user_id: req.params.userId },
-      order: [["createdAt", "DESC"]],
+      where: { user_id: req.params.userId, tournament_id: req.params.tourId },
+      // order: [["createdAt", "DESC"]],
     })
       .then((team) => {
         Team.update(

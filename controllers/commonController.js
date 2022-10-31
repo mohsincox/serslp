@@ -1,5 +1,6 @@
 const db = require("../models");
 const Country = db.country;
+const Tournament = db.tournament;
 
 const countryGetAllCommon = (req, res) => {
   Country.findAll()
@@ -17,7 +18,16 @@ const countryGetCommon = (req, res) => {
     });
 };
 
+const tournamentGetCommon = (req, res) => {
+  Tournament.findByPk(req.params.id)
+    .then((tournament) => res.status(200).send(tournament))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
 module.exports = {
   countryGetAllCommon,
   countryGetCommon,
+  tournamentGetCommon,
 };
