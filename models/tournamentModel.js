@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.STRING,
     },
+    upcomming: {
+      type: DataTypes.STRING,
+    },
     created_by: {
       type: DataTypes.INTEGER,
     },

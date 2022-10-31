@@ -23,6 +23,7 @@ const tournamentAdd = (req, res) => {
             year: req.body.year,
             category: req.body.category,
             status: req.body.status,
+            upcomming: req.body.upcomming,
             logo: "",
           })
             .then((tournament) => res.status(201).send(tournament))
@@ -38,6 +39,7 @@ const tournamentAdd = (req, res) => {
             year: req.body.year,
             category: req.body.category,
             status: req.body.status,
+            upcomming: req.body.upcomming,
             logo: req.file.path,
           })
             .then((tournament) => res.status(201).send(tournament))
@@ -109,6 +111,7 @@ const tournamentUpdate = (req, res) => {
                   year: req.body.year || tournament.year,
                   category: req.body.category || tournament.category,
                   status: req.body.status || tournament.status,
+                  upcomming: req.body.upcomming || tournament.upcomming,
                 },
                 {
                   where: {
@@ -137,6 +140,7 @@ const tournamentUpdate = (req, res) => {
                   year: req.body.year || tournament.year,
                   category: req.body.category || tournament.category,
                   status: req.body.status || tournament.status,
+                  upcomming: req.body.upcomming || tournament.upcomming,
                   logo: req.file.path,
                 },
                 {
