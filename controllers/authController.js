@@ -1,5 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const path = require("path");
 const passport = require("passport");
 require("../config/passport")(passport);
 const db = require("../models");
@@ -14,64 +16,127 @@ const registerUser = (req, res) => {
       msg: "Please pass username, password and name.",
     });
   } else {
-    Role.findOne({
-      where: {
-        role_name: "customer",
-      },
-    })
-      .then((role) => {
-        console.log(role.id);
-        User.create({
-          email: req.body.email,
-          password: bcrypt.hashSync(req.body.password, 8),
-          name: req.body.name,
-          role_id: role.id,
-          phone_number: req.body.phone_number,
-          gender: req.body.gender,
-          age: req.body.age,
-        })
-          .then((user) => {
-            User.findByPk(user.id, {
-              include: [
-                {
-                  model: Role,
-                  include: [
-                    {
-                      model: RolePermission,
-                    },
-                  ],
-                },
-              ],
-            }).then((userrole) => {
-              var token = jwt.sign(
-                JSON.parse(JSON.stringify(user)),
-                authConfig.secret,
-                {
-                  expiresIn: 86400 * 30,
-                }
-              );
-              jwt.verify(token, authConfig.secret, function (err, data) {
-                console.log(err, data);
-              });
-              res.json({
-                success: true,
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                accessToken: "JWT " + token,
-                userrole: userrole,
-              });
-            });
-          })
-          // .then((user) => res.status(201).send(user))
-
-          .catch((error) => {
-            res.status(400).send(error);
-          });
+    if (req.file == undefined) {
+      Role.findOne({
+        where: {
+          role_name: "customer",
+        },
       })
-      .catch((error) => {
-        res.status(400).send(error);
-      });
+        .then((role) => {
+          console.log(role.id);
+          User.create({
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8),
+            name: req.body.name,
+            role_id: role.id,
+            phone_number: req.body.phone_number,
+            gender: req.body.gender,
+            age: req.body.age,
+            image: "",
+          })
+            .then((user) => {
+              User.findByPk(user.id, {
+                include: [
+                  {
+                    model: Role,
+                    include: [
+                      {
+                        model: RolePermission,
+                      },
+                    ],
+                  },
+                ],
+              }).then((userrole) => {
+                var token = jwt.sign(
+                  JSON.parse(JSON.stringify(user)),
+                  authConfig.secret,
+                  {
+                    expiresIn: 86400 * 30,
+                  }
+                );
+                jwt.verify(token, authConfig.secret, function (err, data) {
+                  console.log(err, data);
+                });
+                res.json({
+                  success: true,
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                  accessToken: "JWT " + token,
+                  userrole: userrole,
+                });
+              });
+            })
+            // .then((user) => res.status(201).send(user))
+
+            .catch((error) => {
+              res.status(400).send(error);
+            });
+        })
+        .catch((error) => {
+          res.status(400).send(error);
+        });
+    } else {
+      Role.findOne({
+        where: {
+          role_name: "customer",
+        },
+      })
+        .then((role) => {
+          console.log(role.id);
+          User.create({
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8),
+            name: req.body.name,
+            role_id: role.id,
+            phone_number: req.body.phone_number,
+            gender: req.body.gender,
+            age: req.body.age,
+            image: req.file.path,
+          })
+            .then((user) => {
+              User.findByPk(user.id, {
+                include: [
+                  {
+                    model: Role,
+                    include: [
+                      {
+                        model: RolePermission,
+                      },
+                    ],
+                  },
+                ],
+              }).then((userrole) => {
+                var token = jwt.sign(
+                  JSON.parse(JSON.stringify(user)),
+                  authConfig.secret,
+                  {
+                    expiresIn: 86400 * 30,
+                  }
+                );
+                jwt.verify(token, authConfig.secret, function (err, data) {
+                  console.log(err, data);
+                });
+                res.json({
+                  success: true,
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                  accessToken: "JWT " + token,
+                  userrole: userrole,
+                });
+              });
+            })
+            // .then((user) => res.status(201).send(user))
+
+            .catch((error) => {
+              res.status(400).send(error);
+            });
+        })
+        .catch((error) => {
+          res.status(400).send(error);
+        });
+    }
   }
 };
 
@@ -135,7 +200,32 @@ const loginUser = (req, res) => {
     .catch((error) => res.status(400).send(error));
 };
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "Images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, "User_" + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const uploadUserImage = multer({
+  storage: storage,
+  limits: { fileSize: "5000000" },
+  fileFilter: (req, file, cb) => {
+    const fileTypes = /jpeg|jpg|png|gif/;
+    const mimeType = fileTypes.test(file.mimetype);
+    const extname = fileTypes.test(path.extname(file.originalname));
+
+    if (mimeType && extname) {
+      return cb(null, true);
+    }
+    cb("Give proper files formate to upload");
+  },
+}).single("image");
+
 module.exports = {
   registerUser,
   loginUser,
+  uploadUserImage,
 };

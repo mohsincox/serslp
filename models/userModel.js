@@ -21,6 +21,9 @@ module.exports = (sequelize, Sequelize) => {
     age: {
       type: Sequelize.STRING,
     },
+    image: {
+      type: Sequelize.STRING,
+    },
   });
 
   return User;
