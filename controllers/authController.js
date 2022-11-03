@@ -123,6 +123,7 @@ const registerUser = (req, res) => {
                   id: user.id,
                   name: user.name,
                   email: user.email,
+                  image: user.image,
                   accessToken: "JWT " + token,
                   userrole: userrole,
                 });
