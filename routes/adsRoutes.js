@@ -25,9 +25,21 @@ router.post(
   adsAdd
 );
 
-router.get("/", adsGetAll);
+router.get(
+  "/",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  adsGetAll
+);
 
-router.get("/:id", adsGet);
+router.get(
+  "/:id",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  adsGet
+);
 
 router.put(
   "/:id",

@@ -22,9 +22,21 @@ router.post(
   widgetAdd
 );
 
-router.get("/", widgetGetAll);
+router.get(
+  "/",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  widgetGetAll
+);
 
-router.get("/:id", widgetGet);
+router.get(
+  "/:id",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  widgetGet
+);
 
 router.put(
   "/:id",
