@@ -7,7 +7,7 @@ const {
   adsGet,
   adsUpdate,
   adsDelete,
-    uploadAdsImage
+  uploadAdsImage,
 } = require("../controllers/adsController");
 // const {adsDuplicateCheck, adsDuplicateCheckUpdate} = require("../middlewares/adsMiddleware");
 
@@ -15,12 +15,13 @@ require("../config/passport")(passport);
 
 router.post(
   "/",
-  // [
-  //   passport.authenticate("jwt", {
-  //     session: false,
-  //   }),
-  // ],
-  uploadAdsImage,
+  [
+    passport.authenticate("jwt", {
+      session: false,
+    }),
+    uploadAdsImage,
+  ],
+
   adsAdd
 );
 
@@ -30,21 +31,21 @@ router.get("/:id", adsGet);
 
 router.put(
   "/:id",
+
+  [
+    passport.authenticate("jwt", {
+      session: false,
+    }),
     uploadAdsImage,
-  // [
-  //   passport.authenticate("jwt", {
-  //     session: false,
-  //   }),
-  //
-  // ],
+  ],
   adsUpdate
 );
 
 router.delete(
   "/:id",
-  // passport.authenticate("jwt", {
-  //   session: false,
-  // }),
+  passport.authenticate("jwt", {
+    session: false,
+  }),
   adsDelete
 );
 
