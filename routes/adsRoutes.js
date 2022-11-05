@@ -55,9 +55,9 @@ router.put(
 
 router.delete(
   "/:id",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+  // passport.authenticate("jwt", {
+  //   session: false,
+  // }),
   adsDelete
 );
 
