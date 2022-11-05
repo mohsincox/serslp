@@ -16,9 +16,9 @@ require("../config/passport")(passport);
 router.post(
   "/",
   [
-    passport.authenticate("jwt", {
-      session: false,
-    }),
+    // passport.authenticate("jwt", {
+    //   session: false,
+    // }),
     uploadAdsImage,
   ],
 
@@ -43,11 +43,10 @@ router.get(
 
 router.put(
   "/:id",
-
   [
-    passport.authenticate("jwt", {
-      session: false,
-    }),
+    // passport.authenticate("jwt", {
+    //   session: false,
+    // }),
     uploadAdsImage,
   ],
   adsUpdate
