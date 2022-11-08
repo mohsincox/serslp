@@ -51,6 +51,7 @@ app.use(
   "/api/ws-dream-team-rankings",
   require("./routes/wsDreamTeamRankingRoutes")
 );
+app.use("/api/forget-password", require("./routes/forgetPasswordRoutes"));
 app.use("/api/contacts", require("./routes/contactRoutes"));
 app.use("/api/reports", require("./routes/reportRoutes"));
 
@@ -63,12 +64,8 @@ app.get("/", (req, res) => {
   res.redirect("https://shoplover.com/");
 });
 
-
-
-
-
-app.get("/testing", async function(req, res) {
-  let gamePS =  await db.gamePointSetting.getByName("Football_Point_Settings");
+app.get("/testing", async function (req, res) {
+  let gamePS = await db.gamePointSetting.getByName("Football_Point_Settings");
 
   res.json(gamePS);
 

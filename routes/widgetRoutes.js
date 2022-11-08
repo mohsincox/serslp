@@ -14,11 +14,11 @@ require("../config/passport")(passport);
 
 router.post(
   "/",
-  [
-    passport.authenticate("jwt", {
-      session: false,
-    }),
-  ],
+  // [
+  //   passport.authenticate("jwt", {
+  //     session: false,
+  //   }),
+  // ],
   widgetAdd
 );
 
@@ -40,19 +40,19 @@ router.get(
 
 router.put(
   "/:id",
-  [
-    passport.authenticate("jwt", {
-      session: false,
-    }),
-  ],
+  // [
+  //   passport.authenticate("jwt", {
+  //     session: false,
+  //   }),
+  // ],
   widgetUpdate
 );
 
 router.delete(
   "/:id",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+  // passport.authenticate("jwt", {
+  //   session: false,
+  // }),
   widgetDelete
 );
 
