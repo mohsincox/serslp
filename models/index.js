@@ -34,7 +34,10 @@ db.match = require("./matchModel.js")(sequelize, Sequelize);
 db.franchise = require("./franchiseModel.js")(sequelize, Sequelize);
 db.tournamentTeam = require("./tournamentTeamModel.js")(sequelize, Sequelize);
 db.news = require("./newsModel.js")(sequelize, Sequelize);
-db.tournamentTeamPlayer = require("./tournamentTeamPlayerModel.js")(sequelize, Sequelize);
+db.tournamentTeamPlayer = require("./tournamentTeamPlayerModel.js")(
+  sequelize,
+  Sequelize
+);
 db.tournamentTeamPlayerDetail = require("./tournamentTeamPlayerDetailModel.js")(
   sequelize,
   Sequelize
@@ -42,6 +45,7 @@ db.tournamentTeamPlayerDetail = require("./tournamentTeamPlayerDetailModel.js")(
 db.pointTable = require("./pointTableModel.js")(sequelize, Sequelize);
 db.settings = require("./settingsModel.js")(sequelize, Sequelize);
 db.club = require("./clubModel.js")(sequelize, Sequelize);
+db.contact = require("./contactModel.js")(sequelize, Sequelize);
 
 /*ku model*/
 
@@ -50,10 +54,10 @@ db.ads = require("./adsModel.js")(sequelize, Sequelize);
 db.page = require("./pageModel.js")(sequelize, Sequelize);
 
 db.widget.hasMany(db.ads, {
-  foreignKey: "widget_id"
+  foreignKey: "widget_id",
 });
 db.ads.belongsTo(db.widget, {
-  foreignKey: 'widget_id'
+  foreignKey: "widget_id",
 });
 
 // db.role = require("../models/role.model.js")(sequelize, Sequelize);
@@ -213,7 +217,6 @@ db.tournamentTeamPlayerDetail.belongsTo(db.player, {
   foreignKey: "player_id",
 });
 
-
 db.match.hasMany(db.pointTable, {
   foreignKey: "match_id",
 });
@@ -269,7 +272,5 @@ db.tournament.hasMany(db.teamDetail, {
 db.teamDetail.belongsTo(db.tournament, {
   foreignKey: "tournament_id",
 });
-
-
 
 module.exports = db;

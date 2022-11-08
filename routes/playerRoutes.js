@@ -12,6 +12,10 @@ const {
   allPlayerGetAll,
   playerGetAllActive,
 } = require("../controllers/playerController");
+const {
+  playerDuplicateCheck,
+  playerDuplicateCheckUpdate,
+} = require("../middlewares/playerMiddleware");
 
 require("../config/passport")(passport);
 
@@ -22,7 +26,7 @@ router.post(
       session: false,
     }),
     uploadPlayerImage,
-    // playerDuplicateCheck,
+    playerDuplicateCheck,
   ],
   playerAdd
 );
@@ -68,7 +72,7 @@ router.put(
       session: false,
     }),
     uploadPlayerImage,
-    // playerDuplicateCheckUpdate,
+    playerDuplicateCheckUpdate,
   ],
   playerUpdate
 );

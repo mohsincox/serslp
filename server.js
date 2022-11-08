@@ -51,6 +51,7 @@ app.use(
   "/api/ws-dream-team-rankings",
   require("./routes/wsDreamTeamRankingRoutes")
 );
+app.use("/api/contacts", require("./routes/contactRoutes"));
 app.use("/api/reports", require("./routes/reportRoutes"));
 
 app.use("/api/widget", require("./routes/widgetRoutes"));
