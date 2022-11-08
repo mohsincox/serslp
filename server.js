@@ -56,9 +56,22 @@ app.use("/api/reports", require("./routes/reportRoutes"));
 app.use("/api/widget", require("./routes/widgetRoutes"));
 app.use("/api/ads", require("./routes/adsRoutes"));
 app.use("/api/page", require("./routes/pageRoutes"));
+app.use("/api/game_point_setting", require("./routes/gamePointSettingsRoutes"));
 
 app.get("/", (req, res) => {
   res.redirect("https://shoplover.com/");
+});
+
+
+
+
+
+app.get("/testing", async function(req, res) {
+  let gamePS =  await db.gamePointSetting.getByName("Football_Point_Settings");
+
+  res.json(gamePS);
+
+  return;
 });
 
 app.listen(port, () => {
