@@ -23,7 +23,7 @@ const playerAdd = (req, res) => {
             game_id: req.body.game_id,
             country_id: req.body.country_id,
             franchise_id: req.body.franchise_id,
-            specification: `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward} }`,
+            specification: `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward}, "Striker":${req.body.isStriker} }`,
             ranking: req.body.ranking,
             point: req.body.point,
             status: req.body.status,
@@ -40,7 +40,7 @@ const playerAdd = (req, res) => {
             game_id: req.body.game_id,
             country_id: req.body.country_id,
             franchise_id: req.body.franchise_id,
-            specification: `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward} }`,
+            specification: `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward}, "Striker":${req.body.isStriker} }`,
             ranking: req.body.ranking,
             point: req.body.point,
             status: req.body.status,
@@ -194,7 +194,7 @@ const playerUpdate = (req, res) => {
                   country_id: req.body.country_id || player.country_id,
                   franchise_id: req.body.franchise_id || player.franchise_id,
                   specification:
-                    `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward} }` ||
+                    `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward}, "Striker":${req.body.isStriker} }` ||
                     player.specification,
                   ranking: req.body.ranking || player.ranking,
                   point: req.body.point || player.point,
@@ -226,7 +226,7 @@ const playerUpdate = (req, res) => {
                   country_id: req.body.country_id || player.country_id,
                   franchise_id: req.body.franchise_id || player.franchise_id,
                   specification:
-                    `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward} }` ||
+                    `{ "All Rounder":${req.body.isAllRounder}, "Batsman":${req.body.isBatsman}, "Bowler":${req.body.isBowler}, "Keeper":${req.body.isKeeper}, "Goalkeeper":${req.body.isGoalkeeper}, "Defender":${req.body.isDefender}, "Midfielder":${req.body.isMidfielder}, "Forward":${req.body.isForward}, "Striker":${req.body.isStriker} }` ||
                     player.specification,
                   ranking: req.body.ranking || player.ranking,
                   point: req.body.point || player.point,
