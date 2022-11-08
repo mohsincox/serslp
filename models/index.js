@@ -48,10 +48,10 @@ db.club = require("./clubModel.js")(sequelize, Sequelize);
 db.contact = require("./contactModel.js")(sequelize, Sequelize);
 
 /*ku model*/
-
 db.widget = require("./widgetModel.js")(sequelize, Sequelize);
 db.ads = require("./adsModel.js")(sequelize, Sequelize);
 db.page = require("./pageModel.js")(sequelize, Sequelize);
+db.gamePointSetting = require("./gamePointSettingsModel")(sequelize, Sequelize);
 
 db.widget.hasMany(db.ads, {
   foreignKey: "widget_id",
