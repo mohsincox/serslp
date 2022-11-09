@@ -31,6 +31,29 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+
+    Goal: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    Assist: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    Goal_Save: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    Penalty_Save: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    Clean_Sheet: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+
+
     created_by: {
       type: DataTypes.INTEGER,
     },
