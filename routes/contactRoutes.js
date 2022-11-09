@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 const Contact = db.contact;
+//test
 
 router.post("/", (req, res) => {
   if (!req.body.name) {

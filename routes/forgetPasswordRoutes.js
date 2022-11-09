@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require("../models");
 const User = db.user;
 const bcrypt = require("bcryptjs");
+//test
 
 router.post("/", function (req, res) {
   if (!req.body.email) {
