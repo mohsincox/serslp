@@ -2,6 +2,7 @@ const db = require("../models");
 const RolePermission = db.rolePermission;
 const Permission = db.permission;
 const GamePointSetting = db.gamePointSetting;
+const TeamDetail = db.teamDetail;
 
 class Helper {
     constructor() {
@@ -60,6 +61,46 @@ class Helper {
             console.log(error)
         }
 
+    }
+
+    async previousTeamDetailDecrement(pointTable) {
+        try {
+            let tournamentId = pointTable.match.tournament_id;
+            let playerId = pointTable.player_id;
+            let playerSpecification = this.footballPlayerSpecification(pointTable.player);
+            let playerScore = {
+                Goal: pointTable.Goal,
+                Assist: pointTable.Assist,
+                Goal_Save: pointTable.Goal_Save,
+                Penalty_Save: pointTable.Penalty_Save,
+                Clean_Sheet: pointTable.Clean_Sheet,
+            }
+
+            let playerPreviousTotalPoint = await this.calculateFootballPlayerTotalPoint(playerScore, playerSpecification);
+
+            const previousUserTeamPointDecrement = await TeamDetail.decrement({total_point: playerPreviousTotalPoint}, {
+                    where: {player_id: playerId, tournament_id: tournamentId}
+                }
+            );
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+
+
+    }
+
+
+
+
+    footballPlayerSpecification (player) {
+        let p = JSON.parse(player.specification);
+        let specification = [];
+        for (const key in p) {
+            if(p[key] === true) specification.push(key);
+        }
+        return specification.length ? specification[0] : null;
     }
 }
 

@@ -12,6 +12,11 @@ const GamePointSetting = db.gamePointSetting;
 const Helper = require("../utils/helper");
 const helper = new Helper();
 
+
+
+
+
+
 const pointTableAdd = (req, res) => {
     helper
         .checkPermission(req.user.role_id, "point_table_add")
@@ -314,7 +319,7 @@ const footballPointTableAdd = async (req, res) => {
             ...footballPoints
         });
         const totalPoint = await helper.calculateFootballPlayerTotalPoint(footballPoints, currentPlayerSpcification);
-        const userTeamPointUpdate = TeamDetail.increment({total_point: totalPoint}, {
+        const userTeamPointUpdate = await TeamDetail.increment({total_point: totalPoint}, {
                 where: {player_id: player_id, tournament_id: currentMatch.tournament_id}
             }
         );
@@ -329,11 +334,93 @@ const footballPointTableAdd = async (req, res) => {
 
 }
 
+const footballPointTableUpdate = async (req, res) => {
+
+
+
+    try {
+        await helper.checkPermission(req.user.role_id, "point_table_add");
+    } catch (error) {
+        res.status(403).send(error);
+    }
+
+
+
+
+
+
+
+    try {
+        let {footballPoints, match_id, tournament_team_id, player_id, currentPlayerSpcification, currentMatch} = req.body;
+
+        try {
+            let pointTable = await PointTable.findByPk( req.params.id, {include: [{model: Player}, {model: Match}]} );
+
+            const totalPoint = await helper.calculateFootballPlayerTotalPoint(footballPoints, currentPlayerSpcification);
+            let fixTeamDetailsPoint = await helper.previousTeamDetailDecrement(pointTable);
+
+            pointTable.set({
+                ...footballPoints
+            });
+            await pointTable.save();
+
+
+            const userTeamPointUpdate = await TeamDetail.increment({total_point: totalPoint}, {
+                where: {player_id: player_id, tournament_id: currentMatch.tournament_id}
+            })
+
+
+
+
+        } catch (error) {
+            console.log(error)
+
+            // If the execution reaches this line, an error occurred.
+            // The transaction has already been rolled back automatically by Sequelize!
+
+        }
+
+
+
+        res.status(400).send("end");
+
+
+
+
+        /*const pointTableCreate = await PointTable.create({
+            match_id: match_id,
+            tournament_team_id: tournament_team_id,
+            player_id: player_id,
+            ...footballPoints
+        });
+        const totalPoint = await helper.calculateFootballPlayerTotalPoint(footballPoints, currentPlayerSpcification);
+        const userTeamPointUpdate = TeamDetail.increment({total_point: totalPoint}, {
+                where: {player_id: player_id, tournament_id: currentMatch.tournament_id}
+            }
+        );
+        if(pointTableCreate && userTeamPointUpdate) {
+            res.status(201).send(pointTableCreate);
+        }*/
+
+
+
+    } catch (error) {
+        res.status(400).send(error);
+    }
+
+
+}
+
+
+
+
+
 module.exports = {
     pointTableAdd,
     pointTableGetAll,
     pointTableGet,
     pointTableUpdate,
     pointTableDelete,
-    footballPointTableAdd
+    footballPointTableAdd,
+    footballPointTableUpdate
 };

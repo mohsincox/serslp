@@ -6,7 +6,7 @@ const {
   pointTableGetAll,
   pointTableGet,
   pointTableUpdate,
-  pointTableDelete, footballPointTableAdd,
+  pointTableDelete, footballPointTableAdd, footballPointTableUpdate,
 } = require("../controllers/pointTableController");
 const {
   pointTableDuplicateCheck,
@@ -62,6 +62,17 @@ router.put(
     pointTableDuplicateCheckUpdate,
   ],
   pointTableUpdate
+);
+
+router.put(
+  "/:id/football",
+  [
+    passport.authenticate("jwt", {
+      session: false,
+    }),
+    // pointTableDuplicateCheckUpdate,
+  ],
+  footballPointTableUpdate
 );
 
 router.delete(
