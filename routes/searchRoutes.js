@@ -5,6 +5,11 @@ const db = require("../models");
 const User = db.user;
 const Player = db.player;
 const Country = db.country;
+const PointTable = db.pointTable;
+const Match = db.match;
+const Tournament = db.tournament;
+const TournamentTeam = db.tournamentTeam;
+const Franchise = db.franchise;
 
 router.get("/user-search", (req, res) => {
   User.findAll({
@@ -23,20 +28,187 @@ router.get("/user-search", (req, res) => {
 });
 
 router.get("/player-search", (req, res) => {
-  Player.findAll({
-    where: {
-      [Op.or]: [
-        { name: { [Op.like]: `%${req.query.searchQuery}%` } },
-        { country_id: req.query.country_id },
+  if (req.query.searchQuery == "") {
+    Player.findAll({
+      where: {
+        [Op.or]: [{ country_id: req.query.country_id }],
+      },
+      include: [
+        {
+          model: Country,
+        },
       ],
+    })
+      .then((players) => res.status(200).send(players))
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  } else {
+    Player.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: `%${req.query.searchQuery}%` } },
+          { country_id: req.query.country_id },
+        ],
+      },
+      include: [
+        {
+          model: Country,
+        },
+      ],
+    })
+      .then((players) => res.status(200).send(players))
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  }
+});
+
+router.get("/tournament-team-search", (req, res) => {
+  if (req.query.searchQuery == "") {
+    TournamentTeam.findAll({
+      where: {
+        [Op.or]: [{ tournament_id: req.query.tournament_id }],
+      },
+      include: [
+        {
+          model: Tournament,
+        },
+        {
+          model: Country,
+        },
+        {
+          model: Franchise,
+        },
+      ],
+    })
+      .then((tournamentTeams) => res.status(200).send(tournamentTeams))
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  } else {
+    TournamentTeam.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: `%${req.query.searchQuery}%` } },
+          { tournament_id: req.query.tournament_id },
+        ],
+      },
+      include: [
+        {
+          model: Tournament,
+        },
+        {
+          model: Country,
+        },
+        {
+          model: Franchise,
+        },
+      ],
+    })
+      .then((tournamentTeams) => res.status(200).send(tournamentTeams))
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  }
+});
+
+router.get("/point-table-search", (req, res) => {
+  PointTable.findAll({
+    where: {
+      [Op.or]: [{ match_id: req.query.match_id }],
     },
     include: [
       {
-        model: Country,
+        model: Match,
+        include: [
+          {
+            model: Tournament,
+          },
+          {
+            model: TournamentTeam,
+            as: "tournament_team_one",
+            include: [
+              {
+                model: Country,
+              },
+              {
+                model: Franchise,
+              },
+            ],
+          },
+          {
+            model: TournamentTeam,
+            as: "tournament_team_two",
+            include: [
+              {
+                model: Country,
+              },
+              {
+                model: Franchise,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        model: Player,
+      },
+      {
+        model: TournamentTeam,
+        include: [
+          {
+            model: Country,
+          },
+          {
+            model: Franchise,
+          },
+        ],
       },
     ],
   })
-    .then((players) => res.status(200).send(players))
+    .then((pointTables) => res.status(200).send(pointTables))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+});
+
+router.get("/match-search", (req, res) => {
+  Match.findAll({
+    where: {
+      [Op.or]: [{ id: req.query.match_id }],
+    },
+    include: [
+      {
+        model: Tournament,
+      },
+      {
+        model: TournamentTeam,
+        as: "tournament_team_one",
+        include: [
+          {
+            model: Country,
+          },
+          {
+            model: Franchise,
+          },
+        ],
+      },
+      {
+        model: TournamentTeam,
+        as: "tournament_team_two",
+        include: [
+          {
+            model: Country,
+          },
+          {
+            model: Franchise,
+          },
+        ],
+      },
+    ],
+  })
+    .then((users) => res.status(200).send(users))
     .catch((err) => {
       res.status(400).send(err);
     });
