@@ -43,10 +43,25 @@ router.get("/player-search", (req, res) => {
       .catch((err) => {
         res.status(400).send(err);
       });
+  } else if (!req.query.searchQuery == "" && req.query.country_id == "") {
+    Player.findAll({
+      where: {
+        [Op.or]: [{ name: { [Op.like]: `%${req.query.searchQuery}%` } }],
+      },
+      include: [
+        {
+          model: Country,
+        },
+      ],
+    })
+      .then((players) => res.status(200).send(players))
+      .catch((err) => {
+        res.status(400).send(err);
+      });
   } else {
     Player.findAll({
       where: {
-        [Op.or]: [
+        [Op.and]: [
           { name: { [Op.like]: `%${req.query.searchQuery}%` } },
           { country_id: req.query.country_id },
         ],
@@ -86,10 +101,31 @@ router.get("/tournament-team-search", (req, res) => {
       .catch((err) => {
         res.status(400).send(err);
       });
+  } else if (!req.query.searchQuery == "" && req.query.tournament_id == "") {
+    TournamentTeam.findAll({
+      where: {
+        [Op.or]: [{ name: { [Op.like]: `%${req.query.searchQuery}%` } }],
+      },
+      include: [
+        {
+          model: Tournament,
+        },
+        {
+          model: Country,
+        },
+        {
+          model: Franchise,
+        },
+      ],
+    })
+      .then((tournamentTeams) => res.status(200).send(tournamentTeams))
+      .catch((err) => {
+        res.status(400).send(err);
+      });
   } else {
     TournamentTeam.findAll({
       where: {
-        [Op.or]: [
+        [Op.and]: [
           { name: { [Op.like]: `%${req.query.searchQuery}%` } },
           { tournament_id: req.query.tournament_id },
         ],
