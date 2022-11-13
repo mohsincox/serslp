@@ -18,6 +18,7 @@ const gamePointSettingsGet = async (req, res) => {
 
 const gamePointSettingsUpdate = async (req, res) => {
     try {
+
         let name = req.params.name;
         let {value} = req.body;
         let setting = await GamePointSetting.findOne({where : {name: name}});
