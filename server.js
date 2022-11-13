@@ -55,6 +55,7 @@ app.use("/api/forget-password", require("./routes/forgetPasswordRoutes"));
 app.use("/api/contacts", require("./routes/contactRoutes"));
 app.use("/api/reports", require("./routes/reportRoutes"));
 app.use("/api/search", require("./routes/searchRoutes"));
+app.use("/api/mail", require("./routes/mailRoutes"));
 //test
 
 app.use("/api/widget", require("./routes/widgetRoutes"));
