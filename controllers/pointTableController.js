@@ -345,64 +345,25 @@ const footballPointTableUpdate = async (req, res) => {
     }
 
 
-
-
-
-
-
     try {
         let {footballPoints, match_id, tournament_team_id, player_id, currentPlayerSpcification, currentMatch} = req.body;
 
         try {
             let pointTable = await PointTable.findByPk( req.params.id, {include: [{model: Player}, {model: Match}]} );
-
-            const totalPoint = await helper.calculateFootballPlayerTotalPoint(footballPoints, currentPlayerSpcification);
             let fixTeamDetailsPoint = await helper.previousTeamDetailDecrement(pointTable);
-
-            pointTable.set({
-                ...footballPoints
-            });
-            await pointTable.save();
-
-
+            const totalPoint = await helper.calculateFootballPlayerTotalPoint(footballPoints, currentPlayerSpcification);
+            pointTable.set({...footballPoints});
+            let updatedPoint = await pointTable.save();
             const userTeamPointUpdate = await TeamDetail.increment({total_point: totalPoint}, {
-                where: {player_id: player_id, tournament_id: currentMatch.tournament_id}
-            })
-
-
-
+                    where: {player_id: player_id, tournament_id: currentMatch.tournament_id}
+                }
+            );
+            res.status(201).send("success");
+            return;
 
         } catch (error) {
-            console.log(error)
-
-            // If the execution reaches this line, an error occurred.
-            // The transaction has already been rolled back automatically by Sequelize!
-
+            console.log(error);
         }
-
-
-
-        res.status(400).send("end");
-
-
-
-
-        /*const pointTableCreate = await PointTable.create({
-            match_id: match_id,
-            tournament_team_id: tournament_team_id,
-            player_id: player_id,
-            ...footballPoints
-        });
-        const totalPoint = await helper.calculateFootballPlayerTotalPoint(footballPoints, currentPlayerSpcification);
-        const userTeamPointUpdate = TeamDetail.increment({total_point: totalPoint}, {
-                where: {player_id: player_id, tournament_id: currentMatch.tournament_id}
-            }
-        );
-        if(pointTableCreate && userTeamPointUpdate) {
-            res.status(201).send(pointTableCreate);
-        }*/
-
-
 
     } catch (error) {
         res.status(400).send(error);
