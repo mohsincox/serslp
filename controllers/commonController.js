@@ -6,6 +6,7 @@ const Player = db.player;
 const Game = db.game;
 const Franchise = db.franchise;
 const TournamentTeam = db.tournamentTeam;
+const GamePointSetting = db.gamePointSetting;
 
 const countryGetAllCommon = (req, res) => {
   Country.findAll()
@@ -81,10 +82,19 @@ const tournamentTeamGetAllCommon = (req, res) => {
     });
 };
 
+const tournamentFootballTeamSettingCommon = (req, res) => {
+  GamePointSetting.findByPk(2)
+    .then((setting) => res.status(200).send(setting))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
 module.exports = {
   countryGetAllCommon,
   countryGetCommon,
   tournamentGetCommon,
   tournamentTeamPlayerDetailGetAllCommon,
   tournamentTeamGetAllCommon,
+  tournamentFootballTeamSettingCommon,
 };
