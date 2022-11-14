@@ -44,7 +44,10 @@ router.post("/", function (req, res) {
           from: '"PLAY11" <test@gmail.com>',
           to: req.body.email,
           subject: "Reset Password",
-          text: "Your password is: " + new_password,
+          text:
+            "Your New Password is: " +
+            new_password +
+            " Please Change Your Password.",
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
