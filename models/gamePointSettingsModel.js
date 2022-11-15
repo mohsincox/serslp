@@ -18,14 +18,14 @@ module.exports = (sequelize, DataTypes) => {
 
     GamePointSetting.getByName = async function(name) {
         let data = await this.findOne({where: {name : name}})
+        let mysql_version = await sequelize.query("SELECT CAST(version() AS FLOAT) as version");
         if(data) {
             return {
                 name: data.name,
-                value: JSON.parse(data.value)
+                value: mysql_version[0][0].version > 8 ? JSON.parse(data.value) : data.value
             };
         }
         return data;
     }
-
     return GamePointSetting;
 };

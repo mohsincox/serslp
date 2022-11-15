@@ -83,11 +83,10 @@ const tournamentTeamGetAllCommon = (req, res) => {
 };
 
 const tournamentFootballTeamSettingCommon = (req, res) => {
-  GamePointSetting.findByPk(2)
-    .then((setting) => res.status(200).send(setting))
-    .catch((err) => {
+  GamePointSetting.getByName("Football_Team_Settings")
+      .then((setting) => res.status(200).send(setting)).catch((err) => {
       res.status(400).send(err);
-    });
+  });
 };
 
 module.exports = {
