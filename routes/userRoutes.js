@@ -8,6 +8,7 @@ const {
   userGet,
   userUpdate,
   userDelete,
+  customerGetAll,
 } = require("../controllers/userController");
 const { checkDuplicateEmail } = require("../middlewares/authMiddleware");
 const { userDuplicateCheckUpdate } = require("../middlewares/userMiddleware");
@@ -31,6 +32,14 @@ router.get(
     session: false,
   }),
   userGetAll
+);
+
+router.get(
+  "/customers",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  customerGetAll
 );
 
 // Get User by ID

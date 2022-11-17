@@ -41,12 +41,38 @@ const userAdd = (req, res) => {
 };
 
 const userGetAll = (req, res) => {
-  console.log("firstFFFF:", req.user);
   helper
     .checkPermission(req.user.role_id, "user_get_all")
     .then((rolePerm) => {
-      console.log("Hello World");
       User.findAll({
+        include: [
+          {
+            model: Role,
+            include: [
+              {
+                model: RolePermission,
+              },
+            ],
+          },
+        ],
+      })
+        .then((users) => res.status(200).send(users))
+        // .then((users) => res.status(200).send(users[0].role.role_permissions))
+        .catch((error) => {
+          res.status(400).send(error);
+        });
+    })
+    .catch((error) => {
+      res.status(403).send(error);
+    });
+};
+
+const customerGetAll = (req, res) => {
+  helper
+    .checkPermission(req.user.role_id, "user_get_all")
+    .then((rolePerm) => {
+      User.findAll({
+        where: { role_id: 8 },
         include: [
           {
             model: Role,
@@ -169,4 +195,5 @@ module.exports = {
   userGet,
   userUpdate,
   userDelete,
+  customerGetAll,
 };
