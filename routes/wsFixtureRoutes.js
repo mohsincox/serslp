@@ -10,6 +10,7 @@ const TournamentTeam = db.tournamentTeam;
 
 router.get("/", (req, res) => {
   Tournament.findAll({
+    order: [["id", "DESC"]],
     include: [
       {
         model: Match,
