@@ -7,7 +7,9 @@ const TeamDetail = db.teamDetail;
 const User = db.user;
 
 router.get("/", (req, res) => {
-  Tournament.findAll({})
+  Tournament.findAll({
+    order: [["id", "DESC"]],
+  })
     .then((tournaments) => res.status(200).send(tournaments))
     .catch((err) => {
       res.status(400).send(err);
