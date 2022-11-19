@@ -70,10 +70,12 @@ const newsGetAll = (req, res) => {
 
 const newsGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "news_get")
+    .checkPermission(req.user.role_id, "id")
     .then((rolePerm) => {
-      News.findByPk(req.params.id)
-        .then((news) => res.status(200).send(news))
+      News.findByPk(req.body.id)
+        .then((news) => {
+            return res.status(200).send(news);
+        })
         .catch((err) => {
           res.status(400).send(err);
         });

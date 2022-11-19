@@ -5,7 +5,24 @@ const News = db.news;
 const Tournament = db.tournament;
 
 router.get("/", (req, res) => {
+
   News.findAll({
+    limit: parseInt(req.query.limit) || null,
+    order: [["id", "DESC"]],
+    include: [
+      {
+        model: Tournament,
+      },
+    ],
+  })
+    .then((newsS) => res.status(200).send(newsS))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+});
+
+router.get("/:id", (req, res) => {
+  News.findByPk(req.params.id, {
     limit: 3,
     order: [["id", "DESC"]],
     include: [
