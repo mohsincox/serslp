@@ -5,6 +5,7 @@ const db = require("../models");
 const Tournament = db.tournament;
 const TeamDetail = db.teamDetail;
 const User = db.user;
+// const axios = require("axios");
 
 router.get("/", (req, res) => {
   Tournament.findAll({
@@ -63,5 +64,38 @@ router.get("/test/:id", (req, res) => {
       res.status(400).send(err);
     });
 });
+
+/*
+router.get("/live", (req, res) => {
+  // const options = {
+  //   method: "GET",
+  //   url: "https://api-football-v1.p.rapidapi.com/v3/timezone",
+  //   headers: {
+  //     "X-RapidAPI-Key": "f6be1d33ffmshd95468f201cd49dp1085cbjsn4f07188ff6a6",
+  //     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
+  //   },
+  // };
+
+  const options = {
+    method: "GET",
+    url: "https://api-football-v1.p.rapidapi.com/v3/fixtures",
+    params: { live: "all" },
+    headers: {
+      "X-RapidAPI-Key": "f6be1d33ffmshd95468f201cd49dp1085cbjsn4f07188ff6a6",
+      "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
+    },
+  };
+
+  axios
+    .request(options)
+    // .then(function (response) {
+    //   console.log(response.data);
+    // })
+    .then((response) => res.status(200).send(response))
+    .catch(function (error) {
+      console.error(error);
+    });
+});
+*/
 
 module.exports = router;
