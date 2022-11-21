@@ -10,6 +10,8 @@ const Match = db.match;
 const Tournament = db.tournament;
 const TournamentTeam = db.tournamentTeam;
 const Franchise = db.franchise;
+const Role = db.role;
+const RolePermission = db.rolePermission;
 
 router.get("/user-search", (req, res) => {
   User.findAll({
@@ -20,6 +22,16 @@ router.get("/user-search", (req, res) => {
         { phone_number: { [Op.like]: `%${req.query.searchQuery}%` } },
       ],
     },
+    include: [
+      {
+        model: Role,
+        include: [
+          {
+            model: RolePermission,
+          },
+        ],
+      },
+    ],
   })
     .then((users) => res.status(200).send(users))
     .catch((err) => {

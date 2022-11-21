@@ -29,19 +29,19 @@ router.post("/", function (req, res) {
           100000 + Math.random() * 900000
         ).toString();
 
-        console.log(" PPpppppppppppppppp", new_password);
+        console.log(new_password);
 
         let transporter = nodeMailer.createTransport({
-          host: "smtp.gmail.com",
+          host: "mail.shoplover.com",
           port: 465,
           secure: true,
           auth: {
-            user: "mohsincse2015@gmail.com",
-            pass: "ffjavfbgeeqoxnoy",
+            user: "play11@shoplover.com",
+            pass: "9HLMN2Ma",
           },
         });
         let mailOptions = {
-          from: '"PLAY11" <test@gmail.com>',
+          from: '"PLAY11" <play11@shoplover.com>',
           to: req.body.email,
           subject: "Reset Password",
           text:
@@ -82,36 +82,6 @@ router.post("/", function (req, res) {
         res.status(400).send(error);
       });
   }
-
-  /*
-  let transporter = nodeMailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: "mohsincse2015@gmail.com",
-      pass: "ffjavfbgeeqoxnoy",
-    },
-  });
-  let mailOptions = {
-    from: '"Mohsin Iqbal" <test@gmail.com>',
-    to: req.body.to,
-    subject: req.body.subject,
-    text: req.body.body,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    console.log("Message %s sent: %s", info.messageId, info.response);
-    // res.render("index");
-    res.status(200).send({
-      msg: "Mail sent successfully.",
-    });
-  });
-
-*/
 });
 
 module.exports = router;
