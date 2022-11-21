@@ -84,9 +84,24 @@ const tournamentTeamGetAllCommon = (req, res) => {
 
 const tournamentFootballTeamSettingCommon = (req, res) => {
   GamePointSetting.getByName("Football_Team_Settings")
-      .then((setting) => res.status(200).send(setting)).catch((err) => {
+    .then((setting) => res.status(200).send(setting))
+    .catch((err) => {
       res.status(400).send(err);
-  });
+    });
+};
+
+const tournamentGetAllCommon = (req, res) => {
+  Tournament.findAll({
+    include: [
+      {
+        model: Game,
+      },
+    ],
+  })
+    .then((tournaments) => res.status(200).send(tournaments))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
 };
 
 module.exports = {
@@ -96,4 +111,5 @@ module.exports = {
   tournamentTeamPlayerDetailGetAllCommon,
   tournamentTeamGetAllCommon,
   tournamentFootballTeamSettingCommon,
+  tournamentGetAllCommon,
 };

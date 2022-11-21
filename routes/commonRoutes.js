@@ -7,6 +7,7 @@ const {
   tournamentTeamPlayerDetailGetAllCommon,
   tournamentTeamGetAllCommon,
   tournamentFootballTeamSettingCommon,
+  tournamentGetAllCommon,
 } = require("../controllers/commonController");
 
 router.get("/countries", countryGetAllCommon);
@@ -25,5 +26,7 @@ router.get(
   "/tournament-football-team-setting",
   tournamentFootballTeamSettingCommon
 );
+
+router.get("/tournaments", tournamentGetAllCommon);
 
 module.exports = router;
