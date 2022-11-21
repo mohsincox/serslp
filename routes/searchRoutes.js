@@ -16,6 +16,38 @@ const RolePermission = db.rolePermission;
 router.get("/user-search", (req, res) => {
   User.findAll({
     where: {
+      role_id: {
+        [Op.not]: 8,
+      },
+      [Op.or]: [
+        { name: { [Op.like]: `%${req.query.searchQuery}%` } },
+        { email: { [Op.like]: `%${req.query.searchQuery}%` } },
+        { phone_number: { [Op.like]: `%${req.query.searchQuery}%` } },
+      ],
+    },
+    include: [
+      {
+        model: Role,
+        include: [
+          {
+            model: RolePermission,
+          },
+        ],
+      },
+    ],
+  })
+    .then((users) => res.status(200).send(users))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+});
+
+router.get("/customer-search", (req, res) => {
+  User.findAll({
+    where: {
+      role_id: {
+        [Op.eq]: 8,
+      },
       [Op.or]: [
         { name: { [Op.like]: `%${req.query.searchQuery}%` } },
         { email: { [Op.like]: `%${req.query.searchQuery}%` } },

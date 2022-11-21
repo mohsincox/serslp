@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const { Op } = require("sequelize");
 const db = require("../models");
 const User = db.user;
 const Role = db.role;
@@ -45,6 +46,11 @@ const userGetAll = (req, res) => {
     .checkPermission(req.user.role_id, "user_get_all")
     .then((rolePerm) => {
       User.findAll({
+        where: {
+          role_id: {
+            [Op.not]: 8,
+          },
+        },
         include: [
           {
             model: Role,
