@@ -57,7 +57,7 @@ const tournamentAdd = (req, res) => {
 
 const tournamentGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "tournament_get_all")
+    .checkPermission(req.user.role_id, "tournament_view")
     .then((rolePerm) => {
       Tournament.findAll({
         include: [
@@ -78,7 +78,7 @@ const tournamentGetAll = (req, res) => {
 
 const tournamentGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "tournament_get")
+    .checkPermission(req.user.role_id, "tournament_view")
     .then((rolePerm) => {
       Tournament.findByPk(req.params.id)
         .then((tournament) => res.status(200).send(tournament))

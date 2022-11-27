@@ -46,7 +46,7 @@ const sliderAdd = (req, res) => {
 
 const sliderGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "slider_get_all")
+    .checkPermission(req.user.role_id, "slider_view")
     .then((rolePerm) => {
       Slider.findAll({})
         .then((sliders) => res.status(200).send(sliders))
@@ -61,7 +61,7 @@ const sliderGetAll = (req, res) => {
 
 const sliderGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "slider_get")
+    .checkPermission(req.user.role_id, "slider_view")
     .then((rolePerm) => {
       Slider.findByPk(req.params.id)
         .then((slider) => res.status(200).send(slider))
@@ -76,7 +76,7 @@ const sliderGet = (req, res) => {
 
 const sliderUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "slider_update")
+    .checkPermission(req.user.role_id, "slider_add")
     .then((rolePerm) => {
       if (!req.params.id || !req.body.name) {
         res.status(400).send({

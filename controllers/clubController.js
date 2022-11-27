@@ -53,7 +53,7 @@ const clubAdd = (req, res) => {
 
 const clubGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "club_get_all")
+    .checkPermission(req.user.role_id, "club_view")
     .then((rolePerm) => {
       Club.findAll({
         include: [
@@ -80,7 +80,7 @@ const clubGetAll = (req, res) => {
 
 const clubGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "club_get")
+    .checkPermission(req.user.role_id, "club_view")
     .then((rolePerm) => {
       Club.findByPk(req.params.id)
         .then((club) => res.status(200).send(club))
@@ -95,7 +95,7 @@ const clubGet = (req, res) => {
 
 const clubUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "club_update")
+    .checkPermission(req.user.role_id, "club_add")
     .then((rolePerm) => {
       if (!req.params.id || !req.body.name) {
         res.status(400).send({

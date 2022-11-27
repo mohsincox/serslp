@@ -138,7 +138,7 @@ const tournamentTeamPlayerAdd = async (req, res) => {
 
 const tournamentTeamPlayerGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "tournament_team_player_get_all")
+    .checkPermission(req.user.role_id, "tournament_team_player_view")
     .then((rolePerm) => {
       TournamentTeamPlayer.findAll({
         include: [

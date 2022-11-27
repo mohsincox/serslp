@@ -40,7 +40,7 @@ const adsAdd = (req, res) => {
 
 const adsGetAll = (req, res) => {
   // helper
-  //   .checkPermission(req.user.role_id, "ads_get_all")
+  //   .checkPermission(req.user.role_id, "ads_view")
   //   .then((rolePerm) => {
   Ads.findAll()
     .then((adss) => res.status(200).send(adss))
@@ -55,7 +55,7 @@ const adsGetAll = (req, res) => {
 
 const adsGet = (req, res) => {
   // helper
-  //   .checkPermission(req.user.role_id, "ads_get")
+  //   .checkPermission(req.user.role_id, "ads_view")
   //   .then((rolePerm) => {
   Ads.findByPk(req.params.id)
     .then((ads) => {
@@ -72,7 +72,7 @@ const adsGet = (req, res) => {
 
 const adsUpdate = (req, res) => {
   // helper
-  //   .checkPermission(req.user.role_id, "ads_update")
+  //   .checkPermission(req.user.role_id, "ads_add")
   //   .then((rolePerm) => {
   if (!req.params.id || !req.body.name) {
     res.status(400).send({

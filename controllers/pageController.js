@@ -31,7 +31,7 @@ const pageAdd = (req, res) => {
 
 const pageGetAll = (req, res) => {
   // helper
-  //   .checkPermission(req.user.role_id, "page_get_all")
+  //   .checkPermission(req.user.role_id, "page_view")
   //   .then((rolePerm) => {
   Page.findAll()
     .then((pages) => res.status(200).send(pages))
@@ -46,7 +46,7 @@ const pageGetAll = (req, res) => {
 
 const pageGet = (req, res) => {
   // helper
-  //   .checkPermission(req.user.role_id, "page_get")
+  //   .checkPermission(req.user.role_id, "page_view")
   //   .then((rolePerm) => {
   if (parseInt(req.params.id)) {
     Page.findByPk(req.params.id)
@@ -77,7 +77,7 @@ const pageGet = (req, res) => {
 
 const pageUpdate = (req, res) => {
   // helper
-  //   .checkPermission(req.user.role_id, "page_update")
+  //   .checkPermission(req.user.role_id, "page_add")
   //   .then((rolePerm) => {
   if (!req.params.id || !req.body.name) {
     res.status(400).send({

@@ -40,7 +40,7 @@ const settingsAdd = (req, res) => {
 
 const settingsGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "settings_get_all")
+    .checkPermission(req.user.role_id, "settings_view")
     .then((rolePerm) => {
       Settings.findAll()
         .then((settingss) => res.status(200).send(settingss))
@@ -55,7 +55,7 @@ const settingsGetAll = (req, res) => {
 
 const settingsGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "settings_get")
+    .checkPermission(req.user.role_id, "settings_view")
     .then((rolePerm) => {
       Settings.findByPk(req.params.id)
         .then((settings) => res.status(200).send(settings))
@@ -70,7 +70,7 @@ const settingsGet = (req, res) => {
 
 const settingsUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "settings_update")
+    .checkPermission(req.user.role_id, "settings_add")
     .then((rolePerm) => {
       //   if (!req.params.id || !req.body.name) {
       //     res.status(400).send({

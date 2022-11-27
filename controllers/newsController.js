@@ -49,7 +49,7 @@ const newsAdd = (req, res) => {
 
 const newsGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "news_get_all")
+    .checkPermission(req.user.role_id, "news_view")
     .then((rolePerm) => {
       News.findAll({
         include: [
@@ -74,7 +74,7 @@ const newsGet = (req, res) => {
     .then((rolePerm) => {
       News.findByPk(req.body.id)
         .then((news) => {
-            return res.status(200).send(news);
+          return res.status(200).send(news);
         })
         .catch((err) => {
           res.status(400).send(err);
@@ -87,7 +87,7 @@ const newsGet = (req, res) => {
 
 const newsUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "news_update")
+    .checkPermission(req.user.role_id, "news_add")
     .then((rolePerm) => {
       if (
         !req.params.id ||

@@ -61,7 +61,7 @@ const playerAdd = (req, res) => {
 
 const playerGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "player_get_all")
+    .checkPermission(req.user.role_id, "player_view")
     .then((rolePerm) => {
       Player.findAll({
         include: [
@@ -88,7 +88,7 @@ const playerGetAll = (req, res) => {
 
 const playerGetAllActive = (req, res) => {
   // helper
-  //   .checkPermission(req.user.role_id, "player_get_all")
+  //   .checkPermission(req.user.role_id, "player_view")
   //   .then((rolePerm) => {
   Player.findAll({
     where: {
@@ -138,7 +138,7 @@ const allPlayerGetAll = (req, res) => {
 
 const playerCountryGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "player_get_all")
+    .checkPermission(req.user.role_id, "player_view")
     .then((rolePerm) => {
       Player.findAll({
         where: {
@@ -162,7 +162,7 @@ const playerCountryGetAll = (req, res) => {
 
 const playerGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "player_get")
+    .checkPermission(req.user.role_id, "player_view")
     .then((rolePerm) => {
       Player.findByPk(req.params.id)
         .then((player) => res.status(200).send(player))
@@ -177,7 +177,7 @@ const playerGet = (req, res) => {
 
 const playerUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "player_update")
+    .checkPermission(req.user.role_id, "player_add")
     .then((rolePerm) => {
       if (!req.params.id || !req.body.name) {
         res.status(400).send({

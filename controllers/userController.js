@@ -43,7 +43,7 @@ const userAdd = (req, res) => {
 
 const userGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "user_get_all")
+    .checkPermission(req.user.role_id, "user_view")
     .then((rolePerm) => {
       User.findAll({
         where: {
@@ -75,7 +75,7 @@ const userGetAll = (req, res) => {
 
 const customerGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "user_get_all")
+    .checkPermission(req.user.role_id, "user_view")
     .then((rolePerm) => {
       User.findAll({
         where: { role_id: 8 },
@@ -103,7 +103,7 @@ const customerGetAll = (req, res) => {
 
 const userGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "user_get")
+    .checkPermission(req.user.role_id, "user_view")
     .then((rolePerm) => {
       User.findByPk(req.params.id)
         .then((user) => res.status(200).send(user))

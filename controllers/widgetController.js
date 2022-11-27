@@ -30,7 +30,7 @@ const widgetAdd = (req, res) => {
 
 const widgetGetAll = (req, res) => {
   // helper
-  //   .checkPermission(req.user.role_id, "widget_get_all")
+  //   .checkPermission(req.user.role_id, "widget_view")
   //   .then((rolePerm) => {
   Widget.findAll()
     .then((widgets) => res.status(200).send(widgets))
@@ -45,7 +45,7 @@ const widgetGetAll = (req, res) => {
 
 const widgetGet = (req, res) => {
   // helper
-  //   .checkPermission(req.user.role_id, "widget_get")
+  //   .checkPermission(req.user.role_id, "widget_view")
   //   .then((rolePerm) => {
   Widget.findByPk(req.params.id)
     .then((widget) => {

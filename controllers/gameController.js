@@ -30,7 +30,7 @@ const gameAdd = (req, res) => {
 
 const gameGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "game_get_all")
+    .checkPermission(req.user.role_id, "game_view")
     .then((rolePerm) => {
       Game.findAll()
         .then((games) => res.status(200).send(games))
@@ -45,7 +45,7 @@ const gameGetAll = (req, res) => {
 
 const gameGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "game_get")
+    .checkPermission(req.user.role_id, "game_view")
     .then((rolePerm) => {
       Game.findByPk(req.params.id)
         .then((game) => res.status(200).send(game))
@@ -60,7 +60,7 @@ const gameGet = (req, res) => {
 
 const gameUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "game_update")
+    .checkPermission(req.user.role_id, "game_add")
     .then((rolePerm) => {
       if (!req.params.id || !req.body.name) {
         res.status(400).send({

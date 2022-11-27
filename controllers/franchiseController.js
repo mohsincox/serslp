@@ -47,7 +47,7 @@ const franchiseAdd = (req, res) => {
 
 const franchiseGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "franchise_get_all")
+    .checkPermission(req.user.role_id, "franchise_view")
     .then((rolePerm) => {
       Franchise.findAll({
         include: [
@@ -68,7 +68,7 @@ const franchiseGetAll = (req, res) => {
 
 const franchiseGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "franchise_get")
+    .checkPermission(req.user.role_id, "franchise_view")
     .then((rolePerm) => {
       Franchise.findByPk(req.params.id)
         .then((franchise) => res.status(200).send(franchise))
@@ -83,7 +83,7 @@ const franchiseGet = (req, res) => {
 
 const franchiseUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "franchise_update")
+    .checkPermission(req.user.role_id, "franchise_add")
     .then((rolePerm) => {
       if (!req.params.id || !req.body.name) {
         res.status(400).send({

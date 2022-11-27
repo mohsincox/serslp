@@ -100,7 +100,7 @@ const rolePermissionsAdd = (req, res) => {
 
 const roleGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "role_get_all")
+    .checkPermission(req.user.role_id, "role_view")
     .then((rolePerm) => {
       console.log(rolePerm);
       Role.findAll({
@@ -131,7 +131,7 @@ const roleGetAll = (req, res) => {
 
 const roleGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "role_get")
+    .checkPermission(req.user.role_id, "role_view")
     .then((rolePerm) => {})
     .catch((error) => {
       res.status(403).send(error);
@@ -157,7 +157,7 @@ const roleGet = (req, res) => {
 
 const roleUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "role_update")
+    .checkPermission(req.user.role_id, "role_add")
     .then((rolePerm) => {
       if (!req.params.id || !req.body.role_name || !req.body.role_description) {
         res.status(400).send({

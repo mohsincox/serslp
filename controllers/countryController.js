@@ -46,7 +46,7 @@ const countryAdd = (req, res) => {
 
 const countryGetAll = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "country_get_all")
+    .checkPermission(req.user.role_id, "country_view")
     .then((rolePerm) => {
       Country.findAll()
         .then((countries) => res.status(200).send(countries))
@@ -61,7 +61,7 @@ const countryGetAll = (req, res) => {
 
 const countryGet = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "country_get")
+    .checkPermission(req.user.role_id, "country_view")
     .then((rolePerm) => {
       Country.findByPk(req.params.id)
         .then((country) => res.status(200).send(country))
@@ -76,7 +76,7 @@ const countryGet = (req, res) => {
 
 const countryUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "country_update")
+    .checkPermission(req.user.role_id, "country_add")
     .then((rolePerm) => {
       if (!req.params.id || !req.body.name) {
         res.status(400).send({
