@@ -31,4 +31,12 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/:id/detail", (req, res) => {
+  Contact.findByPk(req.params.id)
+    .then((contact) => res.status(200).send(contact))
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+});
+
 module.exports = router;

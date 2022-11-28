@@ -93,7 +93,7 @@ const tournamentGet = (req, res) => {
 
 const tournamentUpdate = (req, res) => {
   helper
-    .checkPermission(req.user.role_id, "tournament_update")
+    .checkPermission(req.user.role_id, "tournament_add")
     .then((rolePerm) => {
       if (!req.params.id || !req.body.name) {
         res.status(400).send({
