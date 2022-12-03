@@ -56,6 +56,7 @@ app.use("/api/contacts", require("./routes/contactRoutes"));
 app.use("/api/reports", require("./routes/reportRoutes"));
 app.use("/api/search", require("./routes/searchRoutes"));
 app.use("/api/mail", require("./routes/mailRoutes"));
+app.use("/api/dashboard", require("./routes/dashboardRoutes"));
 //test
 
 app.use("/api/widget", require("./routes/widgetRoutes"));
