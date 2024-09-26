@@ -187,7 +187,8 @@ const loginUser = (req, res) => {
         }
       );
       jwt.verify(token, authConfig.secret, function (err, data) {
-        console.log(err, data);
+        console.log("err", err);
+        console.log("data", data);
       });
       res.json({
         success: true,

@@ -9,6 +9,7 @@ const {
     matchDelete,
     activeMatchGetAll,
 } = require("../controllers/matchController");
+const { matchDuplicateCheckUpdate, matchDuplicateCheck } = require("../middlewares/matchMiddleware");
 
 require("../config/passport")(passport);
 
@@ -18,7 +19,7 @@ router.post(
         passport.authenticate("jwt", {
             session: false,
         }),
-        // matchDuplicateCheck,
+        matchDuplicateCheck,
     ],
     matchAdd
 );
@@ -61,7 +62,7 @@ router.put(
         passport.authenticate("jwt", {
             session: false,
         }),
-        // matchDuplicateCheckUpdate,
+        matchDuplicateCheckUpdate,
     ],
     matchUpdate
 );

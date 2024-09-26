@@ -23,6 +23,7 @@ const matchAdd = (req, res) => {
             tournament_team_one_id: req.body.tournament_team_one_id,
             tournament_team_two_id: req.body.tournament_team_two_id,
             start_date: req.body.start_date,
+            end_date: req.body.end_date,
             start_time: req.body.start_time,
             venue: req.body.venue,
             status: req.body.status,
@@ -174,6 +175,7 @@ const matchUpdate = (req, res) => {
                           req.body.tournament_team_two_id ||
                           match.tournament_team_two_id,
                       start_date: req.body.start_date || match.start_date,
+                      end_date: req.body.end_date || match.end_date,
                       start_time: req.body.start_time || match.start_time,
                       venue: req.body.venue || match.venue,
                       status: req.body.status || match.status,
