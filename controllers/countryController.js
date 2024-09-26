@@ -48,11 +48,34 @@ const countryGetAll = (req, res) => {
   helper
     .checkPermission(req.user.role_id, "country_get_all")
     .then((rolePerm) => {
-      Country.findAll()
-        .then((countries) => res.status(200).send(countries))
-        .catch((err) => {
-          res.status(400).send(err);
-        });
+      let { page, limit } = req.query;
+
+      page = parseInt(page) || 1;
+      limit = parseInt(limit) || 5;
+
+      const skip = (page - 1) * limit;
+
+      (async () => {
+        const totalCountries = await Country.count();
+
+        const totalPages = Math.ceil(totalCountries / limit);
+
+        Country.findAll({ offset: skip, limit: limit })
+          .then(function (countries) {
+            res.send({
+              countries,
+              error: null,
+              totalCountries,
+              currentPage: page,
+              totalPages,
+              pageSize: limit,
+            });
+          })
+          .catch(function (err) {
+            console.log("first----", err);
+            res.send({ message: null, error: err });
+          });
+      })();
     })
     .catch((err) => {
       res.status(403).send(err);
