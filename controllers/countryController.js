@@ -4,6 +4,7 @@ const db = require("../models");
 const Country = db.country;
 const Helper = require("../utils/helper");
 const helper = new Helper();
+const fs = require("fs");
 
 const countryAdd = (req, res) => {
   helper
@@ -133,6 +134,23 @@ const countryUpdate = (req, res) => {
         } else {
           Country.findByPk(req.params.id)
             .then((country) => {
+              console.log("country.flag----", country.flag);
+              if (fs.existsSync(country.flag)) {
+                fs.unlink(country.flag, (err) => {
+                  if (err) {
+                    console.error(err);
+                    return;
+                  }
+                  console.log("File deleted successfully");
+                });
+              }
+            })
+            .catch((err) => {
+              res.status(400).send(err);
+            });
+
+          Country.findByPk(req.params.id)
+            .then((country) => {
               Country.update(
                 {
                   name: req.body.name || country.name,
@@ -172,6 +190,23 @@ const countryDelete = (req, res) => {
           msg: "Please pass country ID.",
         });
       } else {
+        Country.findByPk(req.params.id)
+          .then((country) => {
+            console.log("country.flag----", country.flag);
+            if (fs.existsSync(country.flag)) {
+              fs.unlink(country.flag, (err) => {
+                if (err) {
+                  console.error(err);
+                  return;
+                }
+                console.log("File deleted successfully");
+              });
+            }
+          })
+          .catch((err) => {
+            res.status(400).send(err);
+          });
+
         Country.findByPk(req.params.id)
           .then((country) => {
             if (country) {
